@@ -1,0 +1,120 @@
+.navbar{
+    background-color: var(--color-background-container);
+    left: 0;
+    padding: 0 2.4rem;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 105;
+    border-bottom: 1px solid var(--color-border-faint);
+}
+.navbar-menu-container{
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    min-height: 100%;
+    width: 1128px;
+}
+.main-logo-container{
+    margin: 0 0.4rem 0 -0.4rem;
+}
+.linkedin-icon{
+    height: 2.5rem;
+    width: 2.5rem;
+}
+.navbar-search-container{
+    flex-grow: 1;
+}
+.navbar-search{
+    position: relative;
+    max-width: 280px;
+    >div{
+        width: 100%;
+        position: relative;
+    }
+}
+.navbar-search-input{
+    width: 100%;
+    border: none;
+    background-color: #edf3f8;
+    line-height: 1.75;
+    font-weight: 400;
+    font-size: 14px;
+    height: 34px;
+    border-radius: 0.25rem;
+    padding: 0 40px;
+    color: rgb(0 0 0/.9);
+}
+.navbar-search-focus{
+    transition: max-width .3s ease-out;
+    max-width: 384px
+}
+.navbar-list{
+    display: flex;
+    flex-wrap: nowrap;
+}
+.navbar-item{
+    display: flex;
+    align-items: center;
+}
+.navbar-links{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    color: rgb(0 0 0/.6);
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: center;
+    min-height: 52px;
+    min-width: 80px;
+    position: relative;
+    text-decoration: none;
+    >div{
+        line-height: 0;
+    }
+    >span{
+        font-size: 13px;
+        line-height: 1.2;
+    }
+    &:hover{
+        color: rgb(0 0 0/.9);
+    }
+}
+.navbar-links-active{
+    color: rgb(0 0 0/.9);
+}
+.navbar-links::after{
+    border-bottom: 2px solid rgb(0 0 0/.9);
+    content: "";
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    transform: scaleX(0);
+    transition: transform .2s ease-in-out;
+    width: 100%;
+}
+.navbar-links-active::after{
+    transform: scaleX(1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1176px){
+    .navbar-menu-container {
+        width: 100%;
+    }
+}
