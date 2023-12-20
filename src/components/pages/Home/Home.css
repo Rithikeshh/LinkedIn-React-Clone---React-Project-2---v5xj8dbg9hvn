@@ -122,6 +122,12 @@
         cursor: pointer;
     }
 }
+.input-nabel-alert{
+    color: #cf0007;
+}
+.text-input-alert{
+    border-color: #cf0007;
+}
 .input-helper{
     margin-top: 12px;
     font-size: 12px;

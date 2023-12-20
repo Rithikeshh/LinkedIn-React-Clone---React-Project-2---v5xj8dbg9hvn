@@ -5,6 +5,8 @@ import Home from "./pages/Home/Home";
 import AuthProvider from "./providers/AuthProvider";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
+import Feed from "./pages/Feed/Feed";
+import AuthNavigator from "./navigator/AuthNavigator";
 
 function App() {
   return(
@@ -14,7 +16,8 @@ function App() {
           <Route path="/" element={<Home />}/>
           <Route path="/login" element={<Login />}/>
           <Route path="/signup" element={<Signup />}/>
-          <Route path="/*" element={<Router />}/>
+          {/* <Route path="/*" element={<Router />}/> */}
+          <Route path="/feed" element={<AuthNavigator><Feed /></AuthNavigator>}/>
         </Routes>
       </AuthProvider>
     </div>

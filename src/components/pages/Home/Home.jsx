@@ -1,9 +1,88 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./Home.css"
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, createSearchParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../providers/AuthProvider'
 function Home() {
-    const {isLoggedIn} = useAuth()
+    const {isLoggedIn, setIsLoggedIn} = useAuth()
+    const navigate = useNavigate();
+    const [userDetails, setUserDetails] = useState({
+        email: "",
+        password: ""
+    })
+    const [emailAlert, setEmailAlret] = useState("");
+    const [passwordAlert, setPasswordAlret] = useState("");
+    const [serverError, setServerError] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
+
+    const loginUser = async ()=>{
+
+        const config = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+               'projectID': 'f104bi07c490'
+            },
+            body: JSON.stringify({
+                ...userDetails,
+                "appType": "linkedin"
+            })
+        }
+        try {
+            const response = await fetch("https://academics.newtonschool.co/api/v1/user/login", config)
+            const result = await response.json()
+            
+            const token = result.token;
+            if(token){
+                localStorage.setItem('userToken', token);
+                localStorage.setItem('userDetails', JSON.stringify({
+                    name: result.data.name,
+                    email: result.data.email,
+                    id: result.data._id
+                }));
+                setIsLoggedIn(true)
+                navigate("/feed")
+            }
+            if(result.status === 'fail'){
+                navigate({
+                    pathname: "/login",
+                    search: createSearchParams({
+                        email: encodeURIComponent(userDetails.email)
+                    }).toString()
+                })
+            }
+        } catch (error) {
+            setServerError(true)
+            setTimeout(()=>{
+                setServerError(false)
+            },5000)
+        }
+    }
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        const emailRegex = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+        if(userDetails.email === ""){
+            setEmailAlret("Please enter your email")
+        }
+        else if(!emailRegex.test(userDetails.email)){
+            setEmailAlret("Please enter a valid email address")
+        }
+        else if(userDetails.password === ""){
+            setPasswordAlret("Please enter a password")
+            setEmailAlret("")
+        }
+        else if(userDetails.password.length < 6){
+            setPasswordAlret("The password you provided must have at least 6 characters")
+            setEmailAlret("")
+        }
+        else{
+            loginUser()
+        }
+    }
+    const handleInputs = (e)=>{
+        setUserDetails(prev=>{
+            return{...prev,[e.target.name]:e.target.value}
+        })
+    }
   return (
     isLoggedIn ? 
 
@@ -44,22 +123,23 @@ function Home() {
                 <div className='home-login-section-form-container'>
                     <h1 className='home-login-section-heading'>Discover what your network can do for you</h1>
                     <div className='login-form-container'>
-                        <form action="">
+                        <form onSubmit={handleSubmit} noValidate>
                             <div className='login-usernameAndPassword-container'>
                                 <div className='login-input'>
-                                    <label className={`input-label`} htmlFor="userId">Email or phone</label>
-                                    <div className={`text-input`}>
-                                        <input id='userId' type="text" />
+                                    <label className={`input-label ${emailAlert ? "input-nabel-alert" : ''}`} htmlFor="email">Email</label>
+                                    <div className={`text-input ${emailAlert ? "text-input-alert" : ''}`}>
+                                        <input onChange={handleInputs} id='email' name='email' value={userDetails.email} type="email"/>
                                     </div>
-                                    <p className='input-helper'></p>
+                                    <p className='input-helper'>{emailAlert}</p>
                                 </div>
                                 <div className='login-input'>
-                                    <label className={`input-label`} htmlFor="password">Password</label>
-                                    <div className={`text-input`}>
-                                        <input id='password' type="text" />
-                                        <button type='button'>Show</button>
+                                    <label className={`input-label ${passwordAlert ? "input-nabel-alert" : ''}`} htmlFor="password">Password</label>
+                                    <div className={`text-input ${passwordAlert ? "text-input-alert" : ''}`}>
+                                        <input onChange={handleInputs} id='password' name='password' value={userDetails.password} type={showPassword ? "text":"password"} />
+                                        <button type='button' onClick={()=>setShowPassword(n=>!n)}>{showPassword ? "Hide" : "Show"}</button>
                                     </div>
-                                    <p className='input-helper'></p>
+                                    <p className='input-helper'>{passwordAlert}</p>
+                                    {serverError && <p className='input-helper'>Something went wrong please try later</p>}
                                 </div>
                             </div>
                             <div className='form-signin'>
