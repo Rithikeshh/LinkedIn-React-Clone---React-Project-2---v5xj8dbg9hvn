@@ -4,11 +4,11 @@ import Loader from '../../Loader/Loader'
 
 function Feed() {
 
-    const [loader, setLoader] = useState(true)
+    const [loader, setLoader] = useState(false)
+    const [posts, setPosts] = useState([])
+    
     useEffect(()=>{
-        setTimeout(()=>{
-            setLoader(false)
-        },500)
+        
     },[])
   return (
     loader ? 
