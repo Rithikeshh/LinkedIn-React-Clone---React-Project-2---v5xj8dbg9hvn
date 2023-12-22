@@ -1,23 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import Navbar from './Navbar/Navbar'
 import Home from './pages/Home/Home'
 import { useAuth } from './providers/AuthProvider'
+import Feed from './pages/Feed/Feed'
+import Loader from './Loader/Loader'
+import AuthNavigator from './navigator/AuthNavigator'
+import MyNetwork from './pages/MyNetwork/MyNetwork'
 
 function Router() {
-  const {isLoggedIn} = useAuth()
+
+  const [loading, setLoading] = useState(true)
+  
   return (
-    isLoggedIn ? 
     <div>
-      <Navbar/>
+      {loading ? 
+        <Loader/>
+        :
+        <Navbar/>
+      }
       <Routes>
-        {/* <Route path='/' element={<Home/>}/> */}
-        {/* <Route path='/feeds' element={<div>Alok's Feed</div>}/>
-        <Route path='/home' element={<div>Alok's Home</div>}/> */}
+        <Route path='/feed' element={<Feed loading={loading} setLoading={setLoading}/>}/>
+        <Route path="/mynetwork" element={<MyNetwork />}/>
       </Routes>
     </div>
-    :
-    <Navigate to='/'/>
   )
 }
 

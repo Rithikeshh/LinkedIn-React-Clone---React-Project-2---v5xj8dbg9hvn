@@ -13,7 +13,7 @@ function Home() {
     const [passwordAlert, setPasswordAlret] = useState("");
     const [serverError, setServerError] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
-
+    document.body.style.backgroundColor = "#fff"
     const loginUser = async ()=>{
 
         const config = {

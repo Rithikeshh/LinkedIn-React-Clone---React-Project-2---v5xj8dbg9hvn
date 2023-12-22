@@ -17,9 +17,8 @@ function App() {
           <Route path="/" element={<Home />}/>
           <Route path="/login" element={<Login />}/>
           <Route path="/signup" element={<Signup />}/>
-          {/* <Route path="/*" element={<Router />}/> */}
-          <Route path="/feed" element={<AuthNavigator><Feed /></AuthNavigator>}/>
-          <Route path="/mynetwork" element={<AuthNavigator><MyNetwork /></AuthNavigator>}/>
+          <Route path="/*" element={<AuthNavigator><Router /></AuthNavigator>}/>
+          
         </Routes>
       </AuthProvider>
     </div>

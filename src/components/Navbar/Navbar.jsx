@@ -7,12 +7,13 @@ function Navbar() {
   const [isFocused, setIsFocused] = useState(false)
   const [isSearchbarStretch, setIsSearchbarStretch] = useState(false)
   const stretchSearchRef = useRef()
-  const stretchSearchButtonRef = useRef()
+  
   const handleFocusInInput = (e)=>{
     setIsFocused(true)
   }
   const handleFocusOutInput = (e)=>{
     setIsFocused(false)
+    setIsSearchbarStretch(false)
   }
   const handleStretchSearchInput = (e)=>{
     setIsSearchbarStretch(true)
@@ -21,17 +22,6 @@ function Navbar() {
     })
   }
   
-  function setStretchSearchFalse(e){
-    if(!stretchSearchRef.current.contains(e.target) && !stretchSearchButtonRef.current.contains(e.target)){
-      setIsSearchbarStretch(false)
-    }
-  }
-  useEffect(()=>{
-      document.addEventListener('click', setStretchSearchFalse)
-      return ()=>{
-        document.removeEventListener('click',setStretchSearchFalse);
-      }
-  },[])
   return (
     <div className='navbar'>
       
@@ -48,7 +38,7 @@ function Navbar() {
             <div className={`${isSearchbarStretch ? "stretch-searchbar": ""}`}>
               <input ref={stretchSearchRef} onFocus={handleFocusInInput} onBlur={handleFocusOutInput} placeholder='Search' className='navbar-search-input' type="text" />
             </div>
-            <button ref={stretchSearchButtonRef} onClick={handleStretchSearchInput} className={`navbar-search-button ${isSearchbarStretch ? "hide":""}`}>
+            <button onClick={handleStretchSearchInput} className={`navbar-search-button ${isSearchbarStretch ? "hide":""}`}>
               <span>
                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="search-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
                   <path d="M21.41 18.59l-5.27-5.28A6.83 6.83 0 0017 10a7 7 0 10-7 7 6.83 6.83 0 003.31-.86l5.28 5.27a2 2 0 002.82-2.82zM5 10a5 5 0 115 5 5 5 0 01-5-5z"></path>

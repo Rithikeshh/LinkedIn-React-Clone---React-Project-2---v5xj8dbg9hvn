@@ -4,7 +4,7 @@ import Navbar from '../../Navbar/Navbar'
 function MyNetwork() {
   return (
     <div>
-      <Navbar/>
+      
     </div>
   )
 }
