@@ -1,6 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import "./Feed.css"
 import { Link } from 'react-router-dom'
+import likePost from '../../utils/likePost'
+import getComments from '../../utils/getComments'
+import deleteComment from '../../utils/deleteComment'
+import postComment from '../../utils/postComment'
 
 function Feed({loading, setLoading}) {
 
@@ -22,9 +26,13 @@ function Feed({loading, setLoading}) {
     try {
       const response = await fetch(`https://academics.newtonschool.co/api/v1/linkedin/post?limit=${limit}&page=${page}`, config)
       const result = await response.json()
-      setPosts(prev=>{
-        return[...prev, ...result.data]
-      })
+
+      if(result.data){
+
+        setPosts(prev=>{
+          return[...prev, ...result.data]
+        })
+      }
     } catch (error) {
       console.log(error);
     } finally{
@@ -161,7 +169,7 @@ function Feed({loading, setLoading}) {
             {
               posts.map((post, index)=>(
                 
-                <SinglePost key={index} post={post}/>
+                <SinglePost key={index} post={post} name={name}/>
               ))
             }
           </div>
@@ -236,11 +244,24 @@ function Feed({loading, setLoading}) {
 
 export default Feed
 
-const SinglePost=({post})=>{
+const namesArr = [
+  "Kwame", "Amina", "Chukwu", "Zahara", "Moussa",
+  "Sakura", "Ravi", "Yuki", "Ji-hoon", "Ananya",
+  "Matteo", "Elena", "Lukas", "Sophie", "Alessio",
+  "Mia", "Elijah", "Isabella", "Liam", "Sofia",
+  "Kai", "Talia", "Mateo", "Aroha", "Leilani",
+  "Lucas", "Isabella", "Mateo", "Valentina", "Thiago"
+]
+
+const SinglePost=({post, name})=>{
   const contentContainerRef = useRef()
   const [showSeeMore, setShowSeeMore] = useState(false)
   const [fitContent, setFitContent] = useState(false)
-  const [isLiked, setIsLiked] = useState(false)
+  const [isLiked, setIsLiked] = useState(localStorage.getItem(post._id) ? true : false);
+  const [likeCount, setLikeCount] = useState(post.likeCount)
+  const [comments, setComments] = useState([])
+  const [showComments, setShowComments] = useState(false)
+
   useEffect(()=>{
 
     if (contentContainerRef.current.scrollHeight > contentContainerRef.current.clientHeight) {
@@ -253,6 +274,14 @@ const SinglePost=({post})=>{
   }
   function handleLike(e){
     setIsLiked(n=>!n)
+    likePost(post._id, setLikeCount)
+  }
+  function handleComments(e){
+    if(comments.length === 0){
+
+      setShowComments(true)
+      
+    }
   }
   return(
     <div className='feedPage-main--box'>
@@ -267,7 +296,9 @@ const SinglePost=({post})=>{
           </div>
         </div>
 
-        <div ref={contentContainerRef} className={`feedPgae-main-post--content-container ${fitContent ? "feedPgae-main-post--content-container-fit-height": ""}`}>
+        <div className={`feedPgae-main-post--content-container ${fitContent ? "feedPgae-main-post--content-container-fit-height": ""}`}
+          ref={contentContainerRef}
+        >
           
           <span  className='feedPgae-main-post--content'>{post.content}</span>
           {showSeeMore && <span className='content-see-more' onClick={handleContentHeight}>...see more</span>}
@@ -281,7 +312,7 @@ const SinglePost=({post})=>{
               <img src="https://static.licdn.com/aero-v1/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="" />
               <img src="https://static.licdn.com/aero-v1/sc/h/b1dl5jk88euc7e9ri50xy5qo8" alt="" />
               <img src="https://static.licdn.com/aero-v1/sc/h/cpho5fghnpme8epox8rdcds22" alt="" />
-              <span>{post.likeCount}</span>
+              <span>{likeCount}</span>
             </div>
             <p>{post.commentCount} comments</p>
           </div>
@@ -297,7 +328,7 @@ const SinglePost=({post})=>{
             }
               <span className={`${isLiked ? "liked": ""}`}>Like</span>
             </div>
-            <div>
+            <div onClick={handleComments}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="comment-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
                 <path d="M7 9h10v1H7zm0 4h7v-1H7zm16-2a6.78 6.78 0 01-2.84 5.61L12 22v-4H8A7 7 0 018 4h8a7 7 0 017 7zm-2 0a5 5 0 00-5-5H8a5 5 0 000 10h6v2.28L19 15a4.79 4.79 0 002-4z"></path>
               </svg>
@@ -316,8 +347,106 @@ const SinglePost=({post})=>{
               <span>Send</span>
             </div>
           </div>
+
         </div>
+        
+        {showComments && <Comments id={post._id}/>}
+        {/* <Comments id={post._id}/> */}
       </div>
+    </div>
+  )
+}
+function Comments({id}){
+  const {name} = JSON.parse(localStorage.getItem("userDetails"))
+  const [comments, setComments] = useState([])
+  const [newComment, setNewComment] = useState("")
+  useEffect(()=>{
+    getComments(id, setComments)
+  },[])
+  function handleInput(e){
+    setNewComment(e.target.value);
+  }
+  function handlePostComment(e){
+    // send content along wit id
+    postComment(id)
+  }
+  return(
+    <div className='feedPgae-main-post-comments-container'>
+      <div className='feedPgae-main-post-comment-input'>
+        <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
+        <input onChange={handleInput} value={newComment} type="text" placeholder='Add a comment...' />
+        {newComment && <span onClick={handlePostComment}>Post</span>}
+      </div>
+      <p>All Comments</p>
+      <div>
+          {comments.map((comment, index)=>(
+            <SingleComment key={index} index={index} comment={comment} setComments={setComments}/>
+          ))}
+      </div>
+    </div>
+  )
+}
+function SingleComment({index, comment, setComments}){
+  const random = useMemo(()=>Math.floor(Math.random() * 30),[]);
+  const myElementRef = useRef()
+  const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false);
+  function handleModal(e){
+    setShowDeleteCommentModal(n=>!n)
+  }
+  return(
+    <div className='feedPgae-main-post-comment'>
+
+      <img src={`https://ui-avatars.com/api/?name=${namesArr[random].slice(0,1)}&background=random`} alt="" />
+
+      <div>
+
+        <div>
+          <p>{namesArr[random]}</p>
+
+          <div style={{position: "relative"}}>
+            <span>{comment.isEdited ? parseInt((new Date() - new Date(comment.updatedAt))/ (1000 * 60 * 60 * 24)) : parseInt((new Date() - new Date(comment.createdAt))/ (1000 * 60 * 60 * 24))}d</span>
+            <svg ref={myElementRef} onClick={handleModal} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="overflow-web-ios-small" aria-hidden="true" role="none" data-supported-dps="16x16" fill="currentColor">
+              <path d="M3 9.5A1.5 1.5 0 114.5 8 1.5 1.5 0 013 9.5zM11.5 8A1.5 1.5 0 1013 6.5 1.5 1.5 0 0011.5 8zm-5 0A1.5 1.5 0 108 6.5 1.5 1.5 0 006.5 8z"></path>
+            </svg>
+          </div>
+
+        </div>
+        {showDeleteCommentModal && <DeleteCommentModal index={index} comment={comment} setComments={setComments} setShowModal={setShowDeleteCommentModal} myElementRef={myElementRef}/>}
+        <p>{comment.content}</p>
+      </div>
+    </div>
+  )
+}
+
+function DeleteCommentModal({index, myElementRef, setShowModal, comment, setComments}){
+
+  function setModalFalse(e){
+    if(!myElementRef.current.contains(e.target)){
+      setShowModal(false)
+    }
+  }
+  useEffect(()=>{
+      document.addEventListener('click', setModalFalse)
+      return ()=>{
+        document.removeEventListener('click',setModalFalse);
+      }
+  },[])
+  function handleDeleteComment(e){
+    e.stopPropagation()
+    deleteComment(comment._id)
+
+    setTimeout(()=>{
+      setModalFalse(false)
+      setComments(prev=>{
+        const newComments = prev.splice(index,1)
+        return [...prev]
+      })
+    },200)
+  }
+  return(
+    <div onClick={handleDeleteComment} className='deleteComment-modal'>
+      <img src="data:image/png;base64,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" alt="" />
+      <span>Delete</span>
     </div>
   )
 }
