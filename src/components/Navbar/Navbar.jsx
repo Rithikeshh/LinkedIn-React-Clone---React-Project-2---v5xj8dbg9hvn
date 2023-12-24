@@ -1,11 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, createSearchParams, useNavigate, useSearchParams } from 'react-router-dom'
 import "./Navbar.css"
 import dropDown from "../../assets/images/caret-drop.png"
 import { useAuth } from '../providers/AuthProvider'
+import { useSearch } from '../providers/SearchProvider'
 function Navbar() {
   const [isFocused, setIsFocused] = useState(false)
   const [isSearchbarStretch, setIsSearchbarStretch] = useState(false)
+  
+  const { setSearchTerm, searchField, searchTerm } = useSearch()
+  const navigate = useNavigate();
+
+  const [searchValue, setSearchValue] = useState(searchTerm);
   const stretchSearchRef = useRef()
   
   const handleFocusInInput = (e)=>{
@@ -21,7 +27,24 @@ function Navbar() {
       stretchSearchRef.current.focus()
     })
   }
-  
+  useEffect(() => {
+    
+    
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+          setSearchTerm(stretchSearchRef.current.value)
+          navigate({
+            pathname: "/search",
+            search: createSearchParams({
+              [searchField]: stretchSearchRef.current.value
+            }).toString()
+          })
+
+        }
+    };
+    stretchSearchRef.current.addEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <div className='navbar'>
       
@@ -36,7 +59,9 @@ function Navbar() {
         <div className='navbar-search-container'>
           <div className={`navbar-search ${isFocused ? 'navbar-search-focus' : ''}`}>
             <div className={`${isSearchbarStretch ? "stretch-searchbar": ""}`}>
-              <input ref={stretchSearchRef} onFocus={handleFocusInInput} onBlur={handleFocusOutInput} placeholder='Search' className='navbar-search-input' type="text" />
+              <input value={searchValue} onChange={(e)=>{
+                setSearchValue(e.target.value)
+              }} ref={stretchSearchRef} onFocus={handleFocusInInput} onBlur={handleFocusOutInput} placeholder='Search' className='navbar-search-input' type="text" />
               <div className='navbar-searchLogo'>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="search-small" aria-hidden="true" role="none" data-supported-dps="16x16" fill="currentColor">
                   <path d="M14.56 12.44L11.3 9.18a5.51 5.51 0 10-2.12 2.12l3.26 3.26a1.5 1.5 0 102.12-2.12zM3 6.5A3.5 3.5 0 116.5 10 3.5 3.5 0 013 6.5z"></path>
