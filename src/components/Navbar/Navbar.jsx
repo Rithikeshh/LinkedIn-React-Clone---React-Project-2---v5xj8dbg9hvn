@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, createSearchParams, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, NavLink, createSearchParams, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import "./Navbar.css"
 import dropDown from "../../assets/images/caret-drop.png"
 import { useAuth } from '../providers/AuthProvider'
@@ -33,12 +33,14 @@ function Navbar() {
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
           setSearchTerm(stretchSearchRef.current.value)
-          navigate({
-            pathname: "/search",
-            search: createSearchParams({
-              [searchField]: stretchSearchRef.current.value
-            }).toString()
-          })
+          console.log(searchField);
+          // navigate({
+          //   pathname: "/search",
+          //   search: createSearchParams({
+          //     [searchField]: stretchSearchRef.current.value
+          //   }).toString()
+          // })
+          navigate("/search")
 
         }
     };

@@ -1,0 +1,68 @@
+import axios from 'axios'
+export default async function createPost(postTitle, postContent, imagePreviewRef, setShowPostModal, getPosts, setPosts){
+
+   
+    try {
+        const token = localStorage.getItem("userToken");
+
+        const formData = new FormData();
+        formData.append("title", postTitle);
+        formData.append("content", postContent);
+        formData.append("images", imagePreviewRef.current.files[0]);
+        const response = await axios.post("https://academics.newtonschool.co/api/v1/linkedin/post",
+            formData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    projectID: 'f104bi07c490'
+                }
+            }
+
+        )
+        console.log(response);
+        const send = response.data.data._id;
+        if(send){
+            setPosts([])
+            getPosts(1,10)
+        }
+        
+    } catch (error) {
+        console.log(error);
+    }
+    finally{
+        setShowPostModal(false)
+    }
+
+    
+    // const token = localStorage.getItem("userToken");
+
+    // const data = new FormData();
+    // data.append("title", postTitle)
+    // data.append("content", postContent)
+    // console.log(data.get('title'));
+
+    // // const myHeaders = new Headers();
+    // // myHeaders.append("projectID", "f104bi07c490");
+    // // myHeaders.append("Content-Type", "multipart/form-data");
+    // // myHeaders.append("Authorization", `Bearer ${token}`);
+    
+    // const config = {
+    //     method: 'POST',
+    //     headers: {
+    //       "Content-Type" : "multipart/form-data",
+    //       "projectID": 'f104bi07c490',
+    //       "Authorization": `Bearer ${token}`
+    //     },
+    //     body : data
+    // }
+    // try {
+    //     const response = await fetch(`https://academics.newtonschool.co/api/v1/linkedin/post`, config)
+    //     console.log(response);
+    //     const result = await response.json();
+    //     console.log(result);
+        
+    // } catch (error) {
+    //     console.log(error);
+    // }
+      
+}

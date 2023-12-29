@@ -5,6 +5,9 @@ import likePost from '../../utils/likePost'
 import getComments from '../../utils/getComments'
 import deleteComment from '../../utils/deleteComment'
 import postComment from '../../utils/postComment'
+import { createPortal } from 'react-dom'
+import createPost from '../../utils/createPost'
+import deletePost from '../../utils/deletePost'
 
 function Feed({loading, setLoading}) {
 
@@ -12,6 +15,7 @@ function Feed({loading, setLoading}) {
   const [posts, setPosts] = useState([])
   const [pageNumber, setPageNumber] = useState(1);
   const [limitPost, setLimitPost] = useState(10);
+  const [showPostModal, setShowPostModal] = useState(false)
   const {name} = JSON.parse(localStorage.getItem("userDetails"))
   const timer = useRef(null)
 
@@ -133,7 +137,9 @@ function Feed({loading, setLoading}) {
 
                 <div className='feedPage-layout--main-createPost-input-container'>
                   <Link to="#"><img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" /></Link>
-                  <button>
+                  <button onClick={()=>{
+                    setShowPostModal(true)
+                  }}>
                     <span>Start a post</span>
                   </button>
                 </div>
@@ -169,7 +175,7 @@ function Feed({loading, setLoading}) {
             {
               posts.map((post, index)=>(
                 
-                <SinglePost key={index} post={post} name={name}/>
+                <SinglePost key={index} post={post} index={index} setPosts={setPosts}/>
               ))
             }
           </div>
@@ -238,11 +244,149 @@ function Feed({loading, setLoading}) {
           </div>
         </div>
       </div>
+      {showPostModal && <CreatePostModal setShowPostModal={setShowPostModal} getPosts={getPosts} setPosts={setPosts}/>}
     </div>
   )
 }
 
 export default Feed
+
+function CreatePostModal({setShowPostModal, getPosts, setPosts}){
+  
+  const [content, setContent] = useState('');
+  const [imageSrc, setImageSrc] = useState('');
+  const {name} = JSON.parse(localStorage.getItem("userDetails"))
+  const contentEditableRef = useRef(null);
+  const imagePreviewRef = useRef(null);
+
+  const handleContentChange = (e) => {
+    const content = contentEditableRef.current.innerHTML;
+    setContent(content)
+    
+    const imgRegex = /<img.*?src=["'](.*?)["'].*?>/g;
+    const matches = content.match(imgRegex);
+    
+    if (matches) {
+      
+      const imageSrc = matches[0].match(/src=["'](.*?)["']/)[1];
+      contentEditableRef.current.textContent = content.replace(imgRegex, "")
+
+      setImageSrc(imageSrc)
+    }
+  };
+
+  function handleFileInput(e){
+    
+    const file = e.target.files[0]
+    const reader  = new FileReader();
+    
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      setImageSrc("");
+    }
+    reader.onloadend = function () {
+      setImageSrc(reader.result);
+    }
+  }
+  function handleCreatePost(e){
+    
+    createPost('Tech in Education: The Digital Classroom', contentEditableRef.current.textContent, imagePreviewRef, setShowPostModal, getPosts, setPosts)
+  }
+  return(
+    <>
+      {
+        createPortal(
+          <div onClick={()=>{
+            setShowPostModal(false)
+          }} className='create-post-modal-container'>
+            <div onClick={(e)=>{
+              e.stopPropagation()
+            }} className='create-post-modal'>
+              <button onClick={()=>{
+                setShowPostModal(false)
+              }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="close-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
+                  <path d="M13.42 12L20 18.58 18.58 20 12 13.42 5.42 20 4 18.58 10.58 12 4 5.42 5.42 4 12 10.58 18.58 4 20 5.42z"></path>
+                </svg>
+              </button>
+
+              <div className='create-post-modal-share-box'>
+
+                <div className='create-post-modal-share-box-header'>
+                  <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
+                  <div>
+                    <span>{name}</span>
+                    <span>Post to Anyone</span>
+                  </div>
+                </div>
+
+                <div className='create-post-modal-share-box-content-container'>
+
+                  <div className='create-post-modal-share-box-content'>
+
+                    <div  
+                      className="ql-editor ql-blank" 
+                      data-gramm="false" 
+                      contentEditable="true" 
+                      data-placeholder={`${content ? "" : "What do you want to talk about?"}`} 
+                      aria-placeholder="What do you want to talk about?" 
+                      aria-label="Text editor for creating content" 
+                      role="textbox" 
+                      aria-multiline="true" 
+                      data-test-ql-editor-contenteditable="true"
+                      ref={contentEditableRef}
+                      onInput={handleContentChange}
+                      
+                    >
+                      
+                    </div>
+
+                    {imageSrc &&
+                      <div className='ql-image-container'>
+                        <button onClick={()=>{
+                          setImageSrc("")
+                        }}>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="close-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
+                            <path d="M13.42 12L20 18.58 18.58 20 12 13.42 5.42 20 4 18.58 10.58 12 4 5.42 5.42 4 12 10.58 18.58 4 20 5.42z"></path>
+                          </svg>
+                        </button>
+                      <div>
+                        <img src={imageSrc}   />
+                      </div>
+
+                    </div>}
+
+                  </div>
+
+                  <div className='create-post-modal-share-box-content-post'>
+                    
+                    <div >
+                      <label htmlFor="file-input">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="image-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
+                        <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z"></path>
+                      </svg>
+                      </label>
+                      <input ref={imagePreviewRef} onInput={handleFileInput} type="file" id='file-input' />
+                    </div>
+
+                    <div>
+                      <button onClick={handleCreatePost} className={`${(content || imageSrc) ? 'active' : ''}`}>Post</button>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>,
+          document.body
+        )
+      }
+    </>
+  )
+}
 
 const namesArr = [
   "Kwame", "Amina", "Chukwu", "Zahara", "Moussa",
@@ -253,7 +397,8 @@ const namesArr = [
   "Lucas", "Isabella", "Mateo", "Valentina", "Thiago"
 ]
 
-const SinglePost=({post, name})=>{
+export const SinglePost=({post, index, setPosts})=>{
+
   const contentContainerRef = useRef()
   const [showSeeMore, setShowSeeMore] = useState(false)
   const [fitContent, setFitContent] = useState(false)
@@ -261,6 +406,8 @@ const SinglePost=({post, name})=>{
   const [likeCount, setLikeCount] = useState(post.likeCount)
   const [comments, setComments] = useState([])
   const [showComments, setShowComments] = useState(false)
+  const [showEditPostModal, setShowEditPostModal] = useState(false)
+  const myElementRef = useRef()
 
   useEffect(()=>{
 
@@ -283,17 +430,29 @@ const SinglePost=({post, name})=>{
       
     }
   }
+  function handlePostEditModal(){
+    setShowEditPostModal(n=>!n)
+  }
   return(
     <div className='feedPage-main--box'>
 
       <div className='feedPage-main-post'>
 
         <div className='feedPgae-main-post--imageAndName-container'>
-          <img src={post.author.profileImage} alt="" />
+          {/* <img src={post.author.profileImage} alt="" /> */}
+          <img src={`https://ui-avatars.com/api/?name=${post.author.name.slice(0,1)}&background=random`} alt="" />
           <div>
-            <p>{post.author.name}</p>
-            <span>{post.channel.name}</span>
+            <p style={{textTransform:"capitalize"}}>{post.author.name}</p>
+            {/* <span>{post.channel.name}</span> */}
+            <span>{post.title}</span>
           </div>
+
+          <div>
+            <svg ref={myElementRef} onClick={handlePostEditModal} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="overflow-web-ios-small" aria-hidden="true" role="none" data-supported-dps="16x16" fill="currentColor">
+              <path d="M3 9.5A1.5 1.5 0 114.5 8 1.5 1.5 0 013 9.5zM11.5 8A1.5 1.5 0 1013 6.5 1.5 1.5 0 0011.5 8zm-5 0A1.5 1.5 0 108 6.5 1.5 1.5 0 006.5 8z"></path>
+            </svg>
+          </div>
+          {showEditPostModal && <EditPostModal myElementRef={myElementRef} setShowEditPostModal={setShowEditPostModal} post={post} index={index} setPosts={setPosts}/>}
         </div>
 
         <div className={`feedPgae-main-post--content-container ${fitContent ? "feedPgae-main-post--content-container-fit-height": ""}`}
@@ -304,7 +463,7 @@ const SinglePost=({post, name})=>{
           {showSeeMore && <span className='content-see-more' onClick={handleContentHeight}>...see more</span>}
         </div>
 
-        <img className='feedPgae-main-post--content-image' src={post.channel.image} alt="" />
+        {post.images[0] && <img className='feedPgae-main-post--content-image' src={post.images[0]} alt="" />}
 
         <div className='feedPgae-main-post-likeAndComment'>
           <div>
@@ -352,6 +511,43 @@ const SinglePost=({post, name})=>{
         
         {showComments && <Comments id={post._id}/>}
         {/* <Comments id={post._id}/> */}
+      </div>
+    </div>
+  )
+}
+function EditPostModal({myElementRef, post, setShowEditPostModal, index, setPosts}){
+  function setModalFalse(e){
+    if(!myElementRef.current.contains(e.target)){
+      setShowEditPostModal(false)
+    }
+  }
+  useEffect(()=>{
+      document.addEventListener('click', setModalFalse)
+      return ()=>{
+        document.removeEventListener('click',setModalFalse);
+      }
+  },[])
+  function handleDeletePost(e){
+    e.stopPropagation()
+    deletePost(post._id)
+
+    setTimeout(()=>{
+      setModalFalse(false)
+      setPosts(prev=>{
+        const newComments = prev.splice(index,1)
+        return [...prev]
+      })
+    })
+  }
+  return(
+    <div>
+      <div>
+        <img src="https://cdn.iconscout.com/icon/free/png-256/free-edit-2653317-2202989.png" alt="" />
+        <span>Edit</span>
+      </div>
+      <div onClick={handleDeletePost}>
+        <img src="data:image/png;base64,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" alt="" />
+        <span>Delete</span>
       </div>
     </div>
   )
@@ -417,6 +613,7 @@ function SingleComment({index, comment, setComments}){
     </div>
   )
 }
+
 
 function DeleteCommentModal({index, myElementRef, setShowModal, comment, setComments}){
 
