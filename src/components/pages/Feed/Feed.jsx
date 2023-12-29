@@ -8,6 +8,7 @@ import postComment from '../../utils/postComment'
 import { createPortal } from 'react-dom'
 import createPost from '../../utils/createPost'
 import deletePost from '../../utils/deletePost'
+import updatePost from '../../utils/updatePost'
 
 function Feed({loading, setLoading}) {
 
@@ -175,7 +176,7 @@ function Feed({loading, setLoading}) {
             {
               posts.map((post, index)=>(
                 
-                <SinglePost key={index} post={post} index={index} setPosts={setPosts}/>
+                <SinglePost key={index} post={post} index={index} setPosts={setPosts} getPosts={getPosts}/>
               ))
             }
           </div>
@@ -352,7 +353,7 @@ function CreatePostModal({setShowPostModal, getPosts, setPosts}){
                           </svg>
                         </button>
                       <div>
-                        <img src={imageSrc}   />
+                        <img ref={imagePreviewRef} src={imageSrc}   />
                       </div>
 
                     </div>}
@@ -367,7 +368,7 @@ function CreatePostModal({setShowPostModal, getPosts, setPosts}){
                         <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z"></path>
                       </svg>
                       </label>
-                      <input ref={imagePreviewRef} onInput={handleFileInput} type="file" id='file-input' />
+                      <input onInput={handleFileInput} type="file" id='file-input' />
                     </div>
 
                     <div>
@@ -388,6 +389,7 @@ function CreatePostModal({setShowPostModal, getPosts, setPosts}){
   )
 }
 
+
 const namesArr = [
   "Kwame", "Amina", "Chukwu", "Zahara", "Moussa",
   "Sakura", "Ravi", "Yuki", "Ji-hoon", "Ananya",
@@ -397,7 +399,7 @@ const namesArr = [
   "Lucas", "Isabella", "Mateo", "Valentina", "Thiago"
 ]
 
-export const SinglePost=({post, index, setPosts})=>{
+export const SinglePost=({post, index, setPosts, getPosts})=>{
 
   const contentContainerRef = useRef()
   const [showSeeMore, setShowSeeMore] = useState(false)
@@ -408,6 +410,8 @@ export const SinglePost=({post, index, setPosts})=>{
   const [showComments, setShowComments] = useState(false)
   const [showEditPostModal, setShowEditPostModal] = useState(false)
   const myElementRef = useRef()
+
+  const {id} = JSON.parse(localStorage.getItem("userDetails"))
 
   useEffect(()=>{
 
@@ -434,25 +438,32 @@ export const SinglePost=({post, index, setPosts})=>{
     setShowEditPostModal(n=>!n)
   }
   return(
+    
     <div className='feedPage-main--box'>
 
       <div className='feedPage-main-post'>
 
         <div className='feedPgae-main-post--imageAndName-container'>
           {/* <img src={post.author.profileImage} alt="" /> */}
+          {post.author.profileImage ? 
+          <img src={post.author.profileImage} alt='profile picture' />
+          :        
           <img src={`https://ui-avatars.com/api/?name=${post.author.name.slice(0,1)}&background=random`} alt="" />
-          <div>
+          }  
+        <div>
             <p style={{textTransform:"capitalize"}}>{post.author.name}</p>
             {/* <span>{post.channel.name}</span> */}
             <span>{post.title}</span>
           </div>
 
-          <div>
-            <svg ref={myElementRef} onClick={handlePostEditModal} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="overflow-web-ios-small" aria-hidden="true" role="none" data-supported-dps="16x16" fill="currentColor">
-              <path d="M3 9.5A1.5 1.5 0 114.5 8 1.5 1.5 0 013 9.5zM11.5 8A1.5 1.5 0 1013 6.5 1.5 1.5 0 0011.5 8zm-5 0A1.5 1.5 0 108 6.5 1.5 1.5 0 006.5 8z"></path>
-            </svg>
-          </div>
-          {showEditPostModal && <EditPostModal myElementRef={myElementRef} setShowEditPostModal={setShowEditPostModal} post={post} index={index} setPosts={setPosts}/>}
+          {id == post.author._id && 
+            <div>
+              <svg ref={myElementRef} onClick={handlePostEditModal} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="overflow-web-ios-small" aria-hidden="true" role="none" data-supported-dps="16x16" fill="currentColor">
+                <path d="M3 9.5A1.5 1.5 0 114.5 8 1.5 1.5 0 013 9.5zM11.5 8A1.5 1.5 0 1013 6.5 1.5 1.5 0 0011.5 8zm-5 0A1.5 1.5 0 108 6.5 1.5 1.5 0 006.5 8z"></path>
+              </svg>
+            </div>
+          }
+          {showEditPostModal && <EditOptionPostModal myElementRef={myElementRef} setShowEditPostModal={setShowEditPostModal} post={post} index={index} setPosts={setPosts} getPosts={getPosts}/>}
         </div>
 
         <div className={`feedPgae-main-post--content-container ${fitContent ? "feedPgae-main-post--content-container-fit-height": ""}`}
@@ -463,7 +474,7 @@ export const SinglePost=({post, index, setPosts})=>{
           {showSeeMore && <span className='content-see-more' onClick={handleContentHeight}>...see more</span>}
         </div>
 
-        {post.images[0] && <img className='feedPgae-main-post--content-image' src={post.images[0]} alt="" />}
+        {post.images?.[0] && <img className='feedPgae-main-post--content-image' src={post.images[0]} alt="" />}
 
         <div className='feedPgae-main-post-likeAndComment'>
           <div>
@@ -510,12 +521,13 @@ export const SinglePost=({post, index, setPosts})=>{
         </div>
         
         {showComments && <Comments id={post._id}/>}
-        {/* <Comments id={post._id}/> */}
       </div>
     </div>
   )
 }
-function EditPostModal({myElementRef, post, setShowEditPostModal, index, setPosts}){
+function EditOptionPostModal({myElementRef, post, setShowEditPostModal, index, setPosts, getPosts}){
+  const [showEditModal, setShowEditModal] = useState(false)
+
   function setModalFalse(e){
     if(!myElementRef.current.contains(e.target)){
       setShowEditPostModal(false)
@@ -540,8 +552,12 @@ function EditPostModal({myElementRef, post, setShowEditPostModal, index, setPost
     })
   }
   return(
+    <>
     <div>
-      <div>
+      <div onClick={(e)=>{
+        e.stopPropagation()
+        setShowEditModal(true)
+      }}>
         <img src="https://cdn.iconscout.com/icon/free/png-256/free-edit-2653317-2202989.png" alt="" />
         <span>Edit</span>
       </div>
@@ -550,8 +566,155 @@ function EditPostModal({myElementRef, post, setShowEditPostModal, index, setPost
         <span>Delete</span>
       </div>
     </div>
+    {showEditModal && <EditPostModal setShowEditPostModal={setShowEditPostModal} setShowEditModal={setShowEditModal} post={post} setPosts={setPosts} getPosts={getPosts}/>}
+    </>
   )
 }
+
+function EditPostModal({setShowEditPostModal, setShowEditModal, post, setPosts, getPosts}){
+  
+  const [content, setContent] = useState(post.content);
+  const [imageSrc, setImageSrc] = useState(post.images ? post.images[0] : '');
+  const {name} = JSON.parse(localStorage.getItem("userDetails"))
+
+  const contentEditableRef = useRef(null);
+  const imagePreviewRef = useRef(null);
+
+  useEffect(()=>{
+    contentEditableRef.current.textContent = content
+    
+  },[])
+
+  const handleContentChange = (e) => {
+    const content = contentEditableRef.current.innerHTML;
+    setContent(content)
+    
+    const imgRegex = /<img.*?src=["'](.*?)["'].*?>/g;
+    const matches = content.match(imgRegex);
+    
+    if (matches) {
+      
+      const imageSrc = matches[0].match(/src=["'](.*?)["']/)[1];
+      contentEditableRef.current.textContent = content.replace(imgRegex, "")
+
+      setImageSrc(imageSrc)
+    }
+  };
+
+  function handleFileInput(e){
+    
+    const file = e.target.files[0]
+    const reader  = new FileReader();
+    
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      setImageSrc("");
+    }
+    reader.onloadend = function () {
+      setImageSrc(reader.result);
+    }
+  }
+  function handleCreatePost(e){
+    
+    updatePost(post._id, 'Tech in Education: The Digital Classroom', contentEditableRef.current.textContent, imagePreviewRef, setShowEditModal, setPosts, getPosts)
+  }
+  return(
+    <>
+      {
+        createPortal(
+          <div onClick={()=>{
+            setShowEditModal(false)
+          }} className='create-post-modal-container'>
+            <div onClick={(e)=>{
+              e.stopPropagation()
+            }} className='create-post-modal'>
+              <button onClick={()=>{
+                setShowEditModal(false)
+                setShowEditPostModal(false)
+              }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="close-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
+                  <path d="M13.42 12L20 18.58 18.58 20 12 13.42 5.42 20 4 18.58 10.58 12 4 5.42 5.42 4 12 10.58 18.58 4 20 5.42z"></path>
+                </svg>
+              </button>
+
+              <div className='create-post-modal-share-box'>
+
+                <div className='create-post-modal-share-box-header'>
+                  <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
+                  <div>
+                    <span>{name}</span>
+                    <span>Post to Anyone</span>
+                  </div>
+                </div>
+
+                <div className='create-post-modal-share-box-content-container'>
+
+                  <div className='create-post-modal-share-box-content'>
+
+                    <div  
+                      className="ql-editor ql-blank" 
+                      data-gramm="false" 
+                      contentEditable="true" 
+                      data-placeholder={`${content ? "" : "What do you want to talk about?"}`} 
+                      aria-placeholder="What do you want to talk about?" 
+                      aria-label="Text editor for creating content" 
+                      role="textbox" 
+                      aria-multiline="true" 
+                      data-test-ql-editor-contenteditable="true"
+                      ref={contentEditableRef}
+                      onInput={handleContentChange}
+                      
+                    >
+                      
+                    </div>
+
+                    {imageSrc &&
+                      <div className='ql-image-container'>
+                        <button onClick={()=>{
+                          setImageSrc("")
+                        }}>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="close-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
+                            <path d="M13.42 12L20 18.58 18.58 20 12 13.42 5.42 20 4 18.58 10.58 12 4 5.42 5.42 4 12 10.58 18.58 4 20 5.42z"></path>
+                          </svg>
+                        </button>
+                      <div>
+                        <img ref={imagePreviewRef} src={imageSrc}   />
+                      </div>
+
+                    </div>}
+
+                  </div>
+
+                  <div className='create-post-modal-share-box-content-post'>
+                    
+                    <div >
+                      <label htmlFor="file-input">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="image-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
+                        <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z"></path>
+                      </svg>
+                      </label>
+                      <input onInput={handleFileInput} type="file" id='file-input' />
+                    </div>
+
+                    <div>
+                      <button onClick={handleCreatePost} className={`${(content || imageSrc) ? 'active' : ''}`}>Update</button>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>,
+          document.body
+        )
+      }
+    </>
+  )
+}
+
 function Comments({id}){
   const {name} = JSON.parse(localStorage.getItem("userDetails"))
   const [comments, setComments] = useState([])
@@ -582,6 +745,7 @@ function Comments({id}){
     </div>
   )
 }
+
 function SingleComment({index, comment, setComments}){
   const random = useMemo(()=>Math.floor(Math.random() * 30),[]);
   const myElementRef = useRef()
@@ -613,7 +777,6 @@ function SingleComment({index, comment, setComments}){
     </div>
   )
 }
-
 
 function DeleteCommentModal({index, myElementRef, setShowModal, comment, setComments}){
 
