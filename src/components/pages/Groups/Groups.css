@@ -1,0 +1,42 @@
+.groupPage-layout{
+    display: grid;
+    grid-template-areas: "main" "aside";
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 24px;
+    grid-template-rows: auto;
+    row-gap: 24px;
+}
+.groupPage-layout--main{
+    grid-area: main;
+}
+.groupPage-layout--aside{
+    grid-area: aside;
+}
+.groupPage-common-container{
+    background-color: #fff;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0px 0px 0px 1px rgb(140 140 140/.2);
+}
+.create-and-discover-group-container{
+    min-height: calc(100vh - 52px - 49px);
+}
+
+
+
+
+
+
+
+
+
+
+@media screen and (min-width: 770px) {
+    .groupPage-layout{
+        grid-template-areas: "main aside";
+        grid-template-columns: minmax(0, auto) minmax(0, 300px);
+    }
+    
+}

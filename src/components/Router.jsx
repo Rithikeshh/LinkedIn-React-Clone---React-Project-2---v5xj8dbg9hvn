@@ -9,6 +9,7 @@ import AuthNavigator from './navigator/AuthNavigator'
 import MyNetwork from './pages/MyNetwork/MyNetwork'
 import SearchPage from './pages/SearchPage/SearchPage'
 import SearchProvider from './providers/SearchProvider'
+import Groups from './pages/Groups/Groups'
 
 function Router() {
 
@@ -26,6 +27,7 @@ function Router() {
         <Route path='/feed' element={<Feed loading={loading} setLoading={setLoading}/>}/>
         <Route path="/mynetwork" element={<MyNetwork />}/>
         <Route path="/search" element={<SearchPage loading={loading} setLoading={setLoading}/>}/>
+        <Route path="/groups" element={<Groups loading={loading} setLoading={setLoading}/>}/>
       </Routes>
     </div>
     </SearchProvider>

@@ -119,7 +119,7 @@ function Feed({loading, setLoading}) {
             {/* Groups */}
             <div className='feedPage-layout--sidebar-groupAndChannel'>
               <div>
-                <Link to="#">Groups</Link>
+                <Link to="/groups">Groups</Link>
                 <Link to="#">Events</Link>
                 <Link to="#">Followed Hashtags</Link>
               </div>
