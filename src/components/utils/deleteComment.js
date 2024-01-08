@@ -9,7 +9,6 @@ export default async function deleteComment(id){
     }
     try {
         const response = await fetch(`https://academics.newtonschool.co/api/v1/linkedin/comment/${id}`, config)
-        const result = await response.json();
         
     } catch (error) {
         console.log(error);

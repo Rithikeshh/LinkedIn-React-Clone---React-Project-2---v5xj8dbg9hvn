@@ -525,6 +525,7 @@ export const SinglePost=({post, index, setPosts, getPosts})=>{
     </div>
   )
 }
+
 function EditOptionPostModal({myElementRef, post, setShowEditPostModal, index, setPosts, getPosts}){
   const [showEditModal, setShowEditModal] = useState(false)
 
@@ -726,8 +727,8 @@ function Comments({id}){
     setNewComment(e.target.value);
   }
   function handlePostComment(e){
-    // send content along wit id
-    postComment(id)
+    
+    postComment(id, newComment, setComments, setNewComment)
   }
   return(
     <div className='feedPgae-main-post-comments-container'>
