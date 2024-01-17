@@ -159,7 +159,9 @@ function Navbar() {
               </div>
             </li>
             <li className='navbar-item'>
-              <div className='navbar-links navbar-premium'>
+              <div onClick={()=>{
+                navigate("/premium")
+              }} className='navbar-links navbar-premium'>
                 Try Premium for ₹0
               </div>
             </li>

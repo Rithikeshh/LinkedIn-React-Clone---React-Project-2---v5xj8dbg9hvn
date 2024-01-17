@@ -10,6 +10,27 @@ function Profile({ loading, setLoading }) {
     const [user, setUser] = useState(null)
     const [loader, setLoader] = useState(true);
     const {name, id} = JSON.parse(localStorage.getItem("userDetails"))
+
+    async function handleConnect(){
+        try {
+            const token = localStorage.getItem("userToken");
+            const response = await axios.get(`https://academics.newtonschool.co/api/v1/linkedin/user/${param.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        projectID: 'f104bi07c490'
+                    }
+                }
+            )
+            setUser(response.data.data)
+        } catch (error) {
+            console.log(error);
+        }
+        finally{
+            setLoader(false)
+            setLoading(false)
+        }
+    }
     
     useEffect(() => {
         async function getUser(){
@@ -56,15 +77,25 @@ function Profile({ loading, setLoading }) {
                                 </div>
                                 <p className='profile-name'>{user.name}</p>
                                 <p className='profile-dummy-description'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque nesciunt sequi error eum in, praesentium facilis, non magni voluptatum laboriosam quaerat modi quis ratione vel quasi? Quas modi animi placeat.</p>
-                                <p className='profile-msg'>Connecting and Messaging feature is not available</p>
+                                {id !== user._id  && <p className='profile-msg'>Connecting and Messaging feature is not available</p>}
                                 <div className='profile-dummy-button'>
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="connect-small" aria-hidden="true" role="none" data-supported-dps="16x16" fill="currentColor">
-                                            <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                                        </svg>
-                                        Connect</button>
-                                    <button>Message</button>
-                                    <button>More</button>
+                                    {id !== user._id ?
+                                        <>
+                                            <button onClick={handleConnect}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="connect-small" aria-hidden="true" role="none" data-supported-dps="16x16" fill="currentColor">
+                                                    <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
+                                                </svg>
+                                                Connect</button>
+                                            <button>Message</button>
+                                            <button>More</button>
+                                        </>
+                                        :
+                                        <>
+                                            <button>Open to</button>
+                                            <button>Add profile section</button>
+                                            <button>More</button>
+                                        </>
+                                    }
                                 </div>
                             </div>
 

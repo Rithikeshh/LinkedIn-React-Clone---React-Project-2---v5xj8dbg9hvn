@@ -865,3 +865,23 @@
         width: 1128px;
     }
 }
+@media screen and (max-width: 500px){
+    .feedPage-main-post-like-comment-buttons
+    > div
+    >svg {
+        width: 18px;
+        color: rgb(0 0 0/.6);
+    }
+}
+@media screen and (max-width: 400px){
+    .feedPage-main-post-like-comment-buttons
+    > div
+    >svg {
+        width: 16px;
+        color: rgb(0 0 0/.6);
+    }
+    .feedPage-main-post-like-comment-buttons
+    >div {
+    column-gap: 4px;
+    }
+}

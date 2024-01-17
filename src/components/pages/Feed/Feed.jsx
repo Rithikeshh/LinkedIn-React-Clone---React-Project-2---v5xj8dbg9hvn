@@ -111,7 +111,7 @@ function Feed({loading, setLoading}) {
               <div className='feedPage-layout--sidebar-profile-premium'>
                 <div>
                   <p>Strengthen your profile with an AI writing assistant</p>
-                  <Link to="#">Try Premium for ₹0</Link>
+                  <Link to="/premium">Try Premium for ₹0</Link>
                 </div>
               </div>
             </div>
@@ -120,8 +120,8 @@ function Feed({loading, setLoading}) {
             <div className='feedPage-layout--sidebar-groupAndChannel'>
               <div>
                 <Link to="/groups">Groups</Link>
-                <Link to="#">Events</Link>
-                <Link to="#">Followed Hashtags</Link>
+                <Link style={{cursor: "not-allowed"}} to="#">Events</Link>
+                <Link style={{cursor: "not-allowed"}} to="#">Followed Hashtags</Link>
               </div>
               <p>Discover more</p>
             </div>
@@ -146,19 +146,19 @@ function Feed({loading, setLoading}) {
                 </div>
 
                 <div className='feedPage-layout--main-createPost-media'>
-                  <div>
+                  <div style={{cursor:"not-allowed"}}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="image-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
                       <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z"></path>
                     </svg>
                     <span>Media</span>
                   </div>
-                  <div>
+                  <div style={{cursor:"not-allowed"}}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="calendar-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
                       <path d="M3 3v15c0 1.66 1.34 3 3 3h12c1.66 0 3-1.34 3-3V3H3zm13 1.75a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zm-8 0a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM19 18c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1V9h14v9zM7 11h2v2H7v-2zm0 4h2v2H7v-2zm4-4h2v2h-2v-2zm0 4h2v2h-2v-2zm4-4h2v2h-2v-2zm0 4h2v2h-2v-2z"></path>
                     </svg>
                     <span>Event</span>
                   </div>
-                  <div>
+                  <div style={{cursor:"not-allowed"}}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="content-align-left-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
                       <path d="M21 3v2H3V3zm-6 6h6V7h-6zm0 4h6v-2h-6zm0 4h6v-2h-6zM3 21h18v-2H3zM13 7H3v10h10z"></path>
                     </svg>
@@ -406,7 +406,6 @@ export const SinglePost=({post, index, setPosts, getPosts})=>{
   const [fitContent, setFitContent] = useState(false)
   const [isLiked, setIsLiked] = useState(localStorage.getItem(post._id) ? true : false);
   const [likeCount, setLikeCount] = useState(post.likeCount)
-  const [comments, setComments] = useState([])
   const [showComments, setShowComments] = useState(false)
   const [showEditPostModal, setShowEditPostModal] = useState(false)
   const navigate = useNavigate()
@@ -432,12 +431,8 @@ export const SinglePost=({post, index, setPosts, getPosts})=>{
     setIsLiked(n=>!n)
     likePost(post._id, setLikeCount)
   }
-  function handleComments(e){
-    if(comments.length === 0){
-      
-      setShowComments(true)
-      
-    }
+  function handleComments(e){      
+    setShowComments(true)
   }
   function handlePostEditModal(){
     setShowEditPostModal(n=>!n)
@@ -509,13 +504,13 @@ export const SinglePost=({post, index, setPosts, getPosts})=>{
               </svg>
               <span>Comment</span>
             </div>
-            <div>
+            <div style={{cursor:"not-allowed"}}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="repost-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
                 <path d="M13.96 5H6c-.55 0-1 .45-1 1v10H3V6c0-1.66 1.34-3 3-3h7.96L12 0h2.37L17 4l-2.63 4H12l1.96-3zm5.54 3H19v10c0 .55-.45 1-1 1h-7.96L12 16H9.63L7 20l2.63 4H12l-1.96-3H18c1.66 0 3-1.34 3-3V8h-1.5z"></path>
               </svg>
               <span>Repost</span>
             </div>
-            <div>
+            <div style={{cursor:"not-allowed"}}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="rtl-flip" id="send-privately-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
                 <path d="M21 3L0 10l7.66 4.26L16 8l-6.26 8.34L14 24l7-21z"></path>
               </svg>

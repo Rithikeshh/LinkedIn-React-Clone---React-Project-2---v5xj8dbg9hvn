@@ -12,6 +12,7 @@ import SearchProvider from './providers/SearchProvider'
 import Groups from './pages/Groups/Groups'
 import SingleGroup from './pages/SingleGroup/SingleGroup'
 import Profile from './pages/Profile/Profile'
+import Premium from './pages/Premium/Premium'
 
 function Router() {
 
@@ -32,6 +33,7 @@ function Router() {
         <Route path="/groups" element={<Groups loading={loading} setLoading={setLoading}/>}/>
         <Route path="/group/:id" element={<SingleGroup loading={loading} setLoading={setLoading} />}/>
         <Route path="/profile/:id" element={<Profile loading={loading} setLoading={setLoading} />}/>
+        <Route path="/premium" element={<Premium loading={loading} setLoading={setLoading}/>}/>
       </Routes>
     </div>
     </SearchProvider>
