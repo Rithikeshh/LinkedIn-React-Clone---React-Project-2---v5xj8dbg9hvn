@@ -343,6 +343,7 @@
         height: 46px;
         border-radius: 50%;
         margin-right: 8px;
+        cursor: pointer;
     }
     >div:nth-child(2){
         >p{
@@ -350,6 +351,7 @@
             font-size: 14px;
             color: rgb(0 0 0/.8);
             line-height: 12px;
+            cursor: pointer;
         }
         >span{
             display: inline-block;

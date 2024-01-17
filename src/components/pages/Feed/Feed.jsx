@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import "./Feed.css"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import likePost from '../../utils/likePost'
 import getComments from '../../utils/getComments'
 import deleteComment from '../../utils/deleteComment'
@@ -17,7 +17,7 @@ function Feed({loading, setLoading}) {
   const [pageNumber, setPageNumber] = useState(1);
   const [limitPost, setLimitPost] = useState(10);
   const [showPostModal, setShowPostModal] = useState(false)
-  const {name} = JSON.parse(localStorage.getItem("userDetails"))
+  const {name, id} = JSON.parse(localStorage.getItem("userDetails"))
   const timer = useRef(null)
 
   const getPosts = async (page, limit) => {
@@ -86,7 +86,7 @@ function Feed({loading, setLoading}) {
               <div className='feedPage-layout--sidebar-profile-nameAndImage'>
 
                   <div className='feedPage-layout--sidebar-profile-cover'></div>
-                  <Link to="#" className='feedPage-layout--sidebar-profile-image-container'>
+                  <Link to={`/profile/${id}`} className='feedPage-layout--sidebar-profile-image-container'>
                     <div>
                       <img className='feedPage-layout--sidebar-profile-image' src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
                     </div>
@@ -409,7 +409,12 @@ export const SinglePost=({post, index, setPosts, getPosts})=>{
   const [comments, setComments] = useState([])
   const [showComments, setShowComments] = useState(false)
   const [showEditPostModal, setShowEditPostModal] = useState(false)
+  const navigate = useNavigate()
   const myElementRef = useRef()
+
+  function navigateToProfile(){
+    navigate(`/profile/${post.author._id }`)
+  }
 
   const {id} = JSON.parse(localStorage.getItem("userDetails"))
 
@@ -429,7 +434,7 @@ export const SinglePost=({post, index, setPosts, getPosts})=>{
   }
   function handleComments(e){
     if(comments.length === 0){
-
+      
       setShowComments(true)
       
     }
@@ -446,12 +451,12 @@ export const SinglePost=({post, index, setPosts, getPosts})=>{
         <div className='feedPgae-main-post--imageAndName-container'>
           {/* <img src={post.author.profileImage} alt="" /> */}
           {post.author.profileImage ? 
-          <img src={post.author.profileImage} alt='profile picture' />
+          <img onClick={navigateToProfile} src={post.author.profileImage} alt='profile picture' />
           :        
-          <img src={`https://ui-avatars.com/api/?name=${post.author.name.slice(0,1)}&background=random`} alt="" />
+          <img onClick={navigateToProfile} src={`https://ui-avatars.com/api/?name=${post.author.name.slice(0,1)}&background=random`} alt="" />
           }  
         <div>
-            <p style={{textTransform:"capitalize"}}>{post.author.name}</p>
+            <p onClick={navigateToProfile} style={{textTransform:"capitalize"}}>{post.author.name}</p>
             {/* <span>{post.channel.name}</span> */}
             <span>{post.title}</span>
           </div>

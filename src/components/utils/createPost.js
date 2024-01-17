@@ -8,10 +8,12 @@ export default async function createPost(postTitle, postContent, imagePreviewRef
         const formData = new FormData();
         formData.append("title", postTitle);
         formData.append("content", postContent);
-
-        const imgResponse = await fetch(imagePreviewRef.current.src)
-        const blob = await imgResponse.blob()
-        formData.append("images", blob, 'image.jpg');
+        
+        if(imagePreviewRef.current?.src){
+            const imgResponse = await fetch(imagePreviewRef.current.src)
+            const blob = await imgResponse.blob()
+            formData.append("images", blob, 'image.jpg');
+        }
         
         const response = await axios.post("https://academics.newtonschool.co/api/v1/linkedin/post",
             formData,

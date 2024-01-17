@@ -10,6 +10,8 @@ import MyNetwork from './pages/MyNetwork/MyNetwork'
 import SearchPage from './pages/SearchPage/SearchPage'
 import SearchProvider from './providers/SearchProvider'
 import Groups from './pages/Groups/Groups'
+import SingleGroup from './pages/SingleGroup/SingleGroup'
+import Profile from './pages/Profile/Profile'
 
 function Router() {
 
@@ -28,6 +30,8 @@ function Router() {
         <Route path="/mynetwork" element={<MyNetwork />}/>
         <Route path="/search" element={<SearchPage loading={loading} setLoading={setLoading}/>}/>
         <Route path="/groups" element={<Groups loading={loading} setLoading={setLoading}/>}/>
+        <Route path="/group/:id" element={<SingleGroup loading={loading} setLoading={setLoading} />}/>
+        <Route path="/profile/:id" element={<Profile loading={loading} setLoading={setLoading} />}/>
       </Routes>
     </div>
     </SearchProvider>
