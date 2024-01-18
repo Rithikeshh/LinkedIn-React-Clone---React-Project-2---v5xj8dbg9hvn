@@ -8,11 +8,13 @@ import Signup from "./pages/Signup/Signup";
 import Feed from "./pages/Feed/Feed";
 import AuthNavigator from "./navigator/AuthNavigator";
 import MyNetwork from "./pages/MyNetwork/MyNetwork";
+import DarkModeProvider from "./providers/DarkModeProvider";
 
 function App() {
   return(
     <div>
       <AuthProvider>
+        <DarkModeProvider>
         <Routes>
           <Route path="/" element={<Home />}/>
           <Route path="/login" element={<Login />}/>
@@ -20,6 +22,7 @@ function App() {
           <Route path="/*" element={<AuthNavigator><Router /></AuthNavigator>}/>
           
         </Routes>
+        </DarkModeProvider>
       </AuthProvider>
     </div>
   )

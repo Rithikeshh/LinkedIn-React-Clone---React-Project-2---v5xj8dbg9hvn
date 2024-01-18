@@ -4,7 +4,11 @@ import "./Navbar.css"
 import dropDown from "../../assets/images/caret-drop.png"
 import { useAuth } from '../providers/AuthProvider'
 import { useSearch } from '../providers/SearchProvider'
+import CustomizedSwitches from '../utils/DarkModeToggleBtn'
+import { useDarkMode } from '../providers/DarkModeProvider'
 function Navbar() {
+  const {darkMode} = useDarkMode()
+  
   const [isFocused, setIsFocused] = useState(false)
   const [isSearchbarStretch, setIsSearchbarStretch] = useState(false)
   
@@ -46,14 +50,22 @@ function Navbar() {
     };
     stretchSearchRef.current.addEventListener('keydown', handleKeyDown);
   }, []);
+  useEffect(()=>{
+    if(darkMode){
+        document.body.style.backgroundColor = "#000"
+    }
+    else{
+        document.body.style.backgroundColor = "#f4f2ee"
+    }
+},[darkMode])
 
   return (
-    <div className='navbar'>
+    <div className={`navbar ${darkMode ? 'dark': ''}`}>
       
       <div className='navbar-menu-container'>
         <Link to="/feed">
             <div style={{display:"flex"}} className='main-logo-container'>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="#0A66C2" className="linkedin-icon" width="24" height="24" focusable="false">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill={`${darkMode ? 'rgba(255, 255, 255, 0.9)': '#0A66C2'}`} className="linkedin-icon" width="24" height="24" focusable="false">
                 <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path>
             </svg>
             </div>
@@ -63,14 +75,14 @@ function Navbar() {
             <div className={`${isSearchbarStretch ? "stretch-searchbar": ""}`}>
               <input value={searchValue} onChange={(e)=>{
                 setSearchValue(e.target.value)
-              }} ref={stretchSearchRef} onFocus={handleFocusInInput} onBlur={handleFocusOutInput} placeholder='Search' className='navbar-search-input' type="text" />
-              <div className='navbar-searchLogo'>
+              }} ref={stretchSearchRef} onFocus={handleFocusInInput} onBlur={handleFocusOutInput} placeholder='Search' className={`navbar-search-input ${darkMode ? 'dark': ''} `} type="text" />
+              <div className={`navbar-searchLogo ${darkMode ? 'dark': ''}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" id="search-small" aria-hidden="true" role="none" data-supported-dps="16x16" fill="currentColor">
                   <path d="M14.56 12.44L11.3 9.18a5.51 5.51 0 10-2.12 2.12l3.26 3.26a1.5 1.5 0 102.12-2.12zM3 6.5A3.5 3.5 0 116.5 10 3.5 3.5 0 013 6.5z"></path>
                 </svg>
               </div>
             </div>
-            <button onClick={handleStretchSearchInput} className={`navbar-search-button ${isSearchbarStretch ? "hide":""}`}>
+            <button onClick={handleStretchSearchInput} className={`navbar-search-button ${isSearchbarStretch ? "hide":""} ${darkMode ? 'dark': ''}`}>
               <span>
                 <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="search-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
                   <path d="M21.41 18.59l-5.27-5.28A6.83 6.83 0 0017 10a7 7 0 10-7 7 6.83 6.83 0 003.31-.86l5.28 5.27a2 2 0 002.82-2.82zM5 10a5 5 0 115 5 5 5 0 01-5-5z"></path>
@@ -84,7 +96,9 @@ function Navbar() {
           <ul className={`navbar-list ${isSearchbarStretch ? "hide":""}`}>
             <li className='navbar-item'>
               <NavLink className={({isActive})=>{
-                return isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                let name = isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                name = darkMode ? `${name} dark` : name
+                return name
               }} to='/feed'>
                 <div>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" className="mercado-match" width="24" height="24" focusable="false">
@@ -96,7 +110,9 @@ function Navbar() {
             </li>
             <li className='navbar-item'>
               <NavLink className={({isActive})=>{
-                return isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                let name = isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                name = darkMode ? `${name} dark` : name
+                return name
               }} to='/mynetwork'>
                 <div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" className="mercado-match" width="24" height="24" focusable="false">
@@ -108,7 +124,9 @@ function Navbar() {
             </li>
             <li className='navbar-item'>
               <NavLink className={({isActive})=>{
-                return isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                let name = isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                name = darkMode ? `${name} dark` : name
+                return name
               }} to='/jobs'>
                 <div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" className="mercado-match" width="24" height="24" focusable="false">
@@ -120,7 +138,9 @@ function Navbar() {
             </li>
             <li className='navbar-item'>
               <NavLink className={({isActive})=>{
-                return isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                let name = isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                name = darkMode ? `${name} dark` : name
+                return name
               }} to='/messaging'>
                 <div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" className="mercado-match" width="24" height="24" focusable="false">
@@ -132,7 +152,9 @@ function Navbar() {
             </li>
             <li className='navbar-item'>
               <NavLink className={({isActive})=>{
-                return isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                let name = isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                name = darkMode ? `${name} dark` : name
+                return name
               }} to='/notifications'>
                 <div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" className="mercado-match" width="24" height="24" focusable="false">
@@ -146,7 +168,7 @@ function Navbar() {
               <NavbarProfile/>
             </li>
             <li className='navbar-item'>
-              <div style={{padding: "0 12px"}} className='navbar-links'>
+              <div style={{padding: "0 12px"}} className={`navbar-links ${darkMode ? 'dark': ''}`}>
                 <div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" className="mercado-match" width="24" height="24" focusable="false">
                   <path d="M3 3h4v4H3zm7 4h4V3h-4zm7-4v4h4V3zM3 14h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4zM3 21h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4z"></path>
@@ -176,12 +198,13 @@ export default Navbar
 
 function NavbarProfile(){
 
+  const {darkMode} = useDarkMode()
   const [showModal, setShowModal] = useState(false)
   const myElementRef = useRef(null)
   const {name} = JSON.parse(localStorage.getItem("userDetails"))
 
   return (
-    <div className='navbar-links' ref={myElementRef} onClick={(e)=>{
+    <div className={`navbar-links ${darkMode ? 'dark': ''}`} ref={myElementRef} onClick={(e)=>{
       setShowModal(n=>!n)
     }}>
       <img style={{width:"24px", borderRadius:"50%"}}
@@ -200,8 +223,13 @@ function NavbarProfile(){
 
 function NavbarProfileModal ({myElementRef, setShowModal}){
 
+  const {darkMode, setDarkMode} = useDarkMode()
+  console.log(darkMode);
+  console.log(setDarkMode);
+
   const navigate = useNavigate();
   const {setIsLoggedIn} = useAuth()
+  const {name, id} = JSON.parse(localStorage.getItem("userDetails"))
   function setModalFalse(e){
     if(!myElementRef.current.contains(e.target)){
       setShowModal(false)
@@ -220,10 +248,25 @@ function NavbarProfileModal ({myElementRef, setShowModal}){
     navigate("/")
   }
   return(
-    <div className='profile-modal' onClick={(e)=>{
+    <div className={`profile-modal ${darkMode ? 'dark': ''}`} style={{lineHeight: "unset"}} onClick={(e)=>{
       e.stopPropagation()
     }}>
-      <span onClick={handleLogout}>Logout</span>
+      <div onClick={()=>{
+        navigate(`/profile/${id}`)
+      }} className='modal-profile-intro-container'>
+        <div>
+          <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
+          <span>{name}</span>
+        </div>
+        <button>view profile</button>
+      </div>
+      <div className='dark-mode-btn'>
+        <span>Dark mode</span>
+        <span onClick={()=>{
+          setDarkMode(prev=>!prev)
+        }}><CustomizedSwitches /></span>
+      </div>
+      <span className='logout-btn' onClick={handleLogout}>Logout</span>
     </div>
   )
 }

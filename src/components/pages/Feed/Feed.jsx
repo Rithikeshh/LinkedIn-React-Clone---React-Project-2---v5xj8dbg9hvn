@@ -9,9 +9,11 @@ import { createPortal } from 'react-dom'
 import createPost from '../../utils/createPost'
 import deletePost from '../../utils/deletePost'
 import updatePost from '../../utils/updatePost'
+import { useDarkMode } from '../../providers/DarkModeProvider'
 
 function Feed({loading, setLoading}) {
 
+  const {darkMode} = useDarkMode()
   const [loader, setLoader] = useState(true)
   const [posts, setPosts] = useState([])
   const [pageNumber, setPageNumber] = useState(1);
@@ -81,22 +83,22 @@ function Feed({loading, setLoading}) {
           <div className='feedPage-layout--sidebar'>
             
             {/* Profile */}
-            <div className='feedPage-layout--sidebar-profile'>
+            <div className={`feedPage-layout--sidebar-profile ${darkMode ? 'dark': ''}`}>
 
-              <div className='feedPage-layout--sidebar-profile-nameAndImage'>
+              <div className={`feedPage-layout--sidebar-profile-nameAndImage`}>
 
                   <div className='feedPage-layout--sidebar-profile-cover'></div>
                   <Link to={`/profile/${id}`} className='feedPage-layout--sidebar-profile-image-container'>
                     <div>
                       <img className='feedPage-layout--sidebar-profile-image' src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
                     </div>
-                    <div className='feedPage-layout--sidebar-profile-name'>{name}</div>
+                    <div className={`feedPage-layout--sidebar-profile-name ${darkMode ? 'dark': ''}`}>{name}</div>
                   </Link>
-                  <p className='feedPage-layout--sidebar-profile-job'>Full Stack Web Developer</p>
+                  <p className={`feedPage-layout--sidebar-profile-job ${darkMode ? 'dark': ''}`}>Full Stack Web Developer</p>
 
               </div>
 
-              <div className='feedPage-layout--sidebar-profile-viewcount'>
+              <div className={`feedPage-layout--sidebar-profile-viewcount ${darkMode ? 'dark': ''}`}>
                 <div>
                   <span>Profile viewers</span>
                   <span>15</span>
@@ -108,7 +110,7 @@ function Feed({loading, setLoading}) {
                 </div>
               </div>
 
-              <div className='feedPage-layout--sidebar-profile-premium'>
+              <div className={`feedPage-layout--sidebar-profile-premium ${darkMode ? 'dark': ''}`}>
                 <div>
                   <p>Strengthen your profile with an AI writing assistant</p>
                   <Link to="/premium">Try Premium for ₹0</Link>
@@ -117,7 +119,7 @@ function Feed({loading, setLoading}) {
             </div>
 
             {/* Groups */}
-            <div className='feedPage-layout--sidebar-groupAndChannel'>
+            <div className={`feedPage-layout--sidebar-groupAndChannel ${darkMode ? 'dark': ''}`}>
               <div>
                 <Link to="/groups">Groups</Link>
                 <Link style={{cursor: "not-allowed"}} to="#">Events</Link>
@@ -132,11 +134,11 @@ function Feed({loading, setLoading}) {
           <div className='feedPage-layout--main'>
 
             {/* create post */}
-            <div className='feedPage-main--box'>
+            <div className={`feedPage-main--box ${darkMode ? 'dark': ''}`}>
 
-              <div className='feedPage-layout--main-createPost-container'>
+              <div className={`feedPage-layout--main-createPost-container`}>
 
-                <div className='feedPage-layout--main-createPost-input-container'>
+                <div className={`feedPage-layout--main-createPost-input-container ${darkMode ? 'dark': ''}`}>
                   <Link to="#"><img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" /></Link>
                   <button onClick={()=>{
                     setShowPostModal(true)
@@ -145,7 +147,7 @@ function Feed({loading, setLoading}) {
                   </button>
                 </div>
 
-                <div className='feedPage-layout--main-createPost-media'>
+                <div className={`feedPage-layout--main-createPost-media ${darkMode ? 'dark': ''}`}>
                   <div style={{cursor:"not-allowed"}}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="image-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
                       <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z"></path>
@@ -185,41 +187,41 @@ function Feed({loading, setLoading}) {
           <div className='feedPage-layout--aside'>
 
             {/* LinkedIn news */}
-            <div className='feedPage-layout--aside-news-container'>
-              <div className='feedPage-layout--aside-news'>
+            <div className={`feedPage-layout--aside-news-container ${darkMode ? 'dark': ''}`}>
+              <div className={`feedPage-layout--aside-news ${darkMode ? 'dark': ''}`}>
                 <div>
                   <span>LinkedIn News</span>
                 </div>
                 <ul className='feedPage-layout--aside-news-list'>
-                  <li className='feedPage-layout--aside-news-list-item'>
+                  <li className={`feedPage-layout--aside-news-list-item ${darkMode ? 'dark': ''}`}>
                     <div>
                       <span></span>
                       <p>Defying trends in frontline workforce</p>
                     </div>
                     <span>Top news • 256 readers</span>
                   </li>
-                  <li className='feedPage-layout--aside-news-list-item'>
+                  <li className={`feedPage-layout--aside-news-list-item ${darkMode ? 'dark': ''}`}>
                     <div>
                       <span></span>
                       <p>Hospitals on expansion mode</p>
                     </div>
                     <span>21h ago • 170 readers</span>
                   </li>
-                  <li className='feedPage-layout--aside-news-list-item'>
+                  <li className={`feedPage-layout--aside-news-list-item ${darkMode ? 'dark': ''}`}>
                     <div>
                       <span></span>
                       <p>Muthoottu Mini to hire 2,000</p>
                     </div>
                     <span>2d ago • 4,918 readers</span>
                   </li>
-                  <li className='feedPage-layout--aside-news-list-item'>
+                  <li className={`feedPage-layout--aside-news-list-item ${darkMode ? 'dark': ''}`}>
                     <div>
                       <span></span>
                       <p>What's next for online gaming</p>
                     </div>
                     <span>21h ago</span>
                   </li>
-                  <li className='feedPage-layout--aside-news-list-item'>
+                  <li className={`feedPage-layout--aside-news-list-item ${darkMode ? 'dark': ''}`}>
                     <div>
                       <span></span>
                       <p>DNap at work: Yay or nay?</p>
@@ -231,8 +233,8 @@ function Feed({loading, setLoading}) {
             </div>
 
             {/* Social connect */}
-            <div className='feedPage-layout--aside-social-connect-container'>
-              <div className='feedPage-layout--aside-social-connect'>
+            <div className={`feedPage-layout--aside-social-connect-container ${darkMode ? 'dark': ''}`}>
+              <div className={`feedPage-layout--aside-social-connect ${darkMode ? 'dark': ''}`}>
                 <p>Ad</p>
                 <div>
                   <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
@@ -254,6 +256,7 @@ export default Feed
 
 function CreatePostModal({setShowPostModal, getPosts, setPosts}){
   
+  const {darkMode} = useDarkMode()
   const [content, setContent] = useState('');
   const [imageSrc, setImageSrc] = useState('');
   const {name} = JSON.parse(localStorage.getItem("userDetails"))
@@ -303,7 +306,7 @@ function CreatePostModal({setShowPostModal, getPosts, setPosts}){
           }} className='create-post-modal-container'>
             <div onClick={(e)=>{
               e.stopPropagation()
-            }} className='create-post-modal'>
+            }} className={`create-post-modal ${darkMode ? 'dark': ''}`}>
               <button onClick={()=>{
                 setShowPostModal(false)
               }}>
@@ -314,7 +317,7 @@ function CreatePostModal({setShowPostModal, getPosts, setPosts}){
 
               <div className='create-post-modal-share-box'>
 
-                <div className='create-post-modal-share-box-header'>
+                <div className={`create-post-modal-share-box-header ${darkMode ? 'dark': ''}`}>
                   <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
                   <div>
                     <span>{name}</span>
@@ -327,7 +330,7 @@ function CreatePostModal({setShowPostModal, getPosts, setPosts}){
                   <div className='create-post-modal-share-box-content'>
 
                     <div  
-                      className="ql-editor ql-blank" 
+                      className={`ql-editor ql-blank ${darkMode ? 'dark': ''}`}
                       data-gramm="false" 
                       contentEditable="true" 
                       data-placeholder={`${content ? "" : "What do you want to talk about?"}`} 
@@ -344,7 +347,7 @@ function CreatePostModal({setShowPostModal, getPosts, setPosts}){
                     </div>
 
                     {imageSrc &&
-                      <div className='ql-image-container'>
+                      <div className={`ql-image-container ${darkMode ? 'dark': ''}`}>
                         <button onClick={()=>{
                           setImageSrc("")
                         }}>
@@ -360,7 +363,7 @@ function CreatePostModal({setShowPostModal, getPosts, setPosts}){
 
                   </div>
 
-                  <div className='create-post-modal-share-box-content-post'>
+                  <div className={`create-post-modal-share-box-content-post ${darkMode ? 'dark': ''}`}>
                     
                     <div >
                       <label htmlFor="file-input">
@@ -401,6 +404,7 @@ const namesArr = [
 
 export const SinglePost=({post, index, setPosts, getPosts})=>{
 
+  const {darkMode} = useDarkMode()
   const contentContainerRef = useRef()
   const [showSeeMore, setShowSeeMore] = useState(false)
   const [fitContent, setFitContent] = useState(false)
@@ -439,11 +443,11 @@ export const SinglePost=({post, index, setPosts, getPosts})=>{
   }
   return(
     
-    <div className='feedPage-main--box'>
+    <div className={`feedPage-main--box ${darkMode ? 'dark': ''}`}>
 
       <div className='feedPage-main-post'>
 
-        <div className='feedPgae-main-post--imageAndName-container'>
+        <div className={`feedPgae-main-post--imageAndName-container ${darkMode ? 'dark': ''}`}>
           {/* <img src={post.author.profileImage} alt="" /> */}
           {post.author.profileImage ? 
           <img onClick={navigateToProfile} src={post.author.profileImage} alt='profile picture' />
@@ -470,13 +474,13 @@ export const SinglePost=({post, index, setPosts, getPosts})=>{
           ref={contentContainerRef}
         >
           
-          <span  className='feedPgae-main-post--content'>{post.content}</span>
-          {showSeeMore && <span className='content-see-more' onClick={handleContentHeight}>...see more</span>}
+          <span  className={`feedPgae-main-post--content ${darkMode ? 'dark': ''}`}>{post.content}</span>
+          {showSeeMore && <span className={`content-see-more ${darkMode ? 'dark': ''}`} onClick={handleContentHeight}>...see more</span>}
         </div>
 
         {post.images?.[0] && <img className='feedPgae-main-post--content-image' src={post.images[0]} alt="" />}
 
-        <div className='feedPgae-main-post-likeAndComment'>
+        <div className={`feedPgae-main-post-likeAndComment ${darkMode ? 'dark': ''}`}>
           <div>
             <div>
               <img src="https://static.licdn.com/aero-v1/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="" />
@@ -487,7 +491,7 @@ export const SinglePost=({post, index, setPosts, getPosts})=>{
             <p>{post.commentCount} comments</p>
           </div>
 
-          <div className='feedPage-main-post-like-comment-buttons'>
+          <div className={`feedPage-main-post-like-comment-buttons ${darkMode ? 'dark': ''}`}>
             <div onClick={handleLike}>
             {!isLiked  ? 
               <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="thumbs-up-outline-medium" aria-hidden="true" role="none" data-supported-dps="24x24" fill="currentColor">
@@ -574,6 +578,7 @@ function EditOptionPostModal({myElementRef, post, setShowEditPostModal, index, s
 
 function EditPostModal({setShowEditPostModal, setShowEditModal, post, setPosts, getPosts}){
   
+  const {darkMode} = useDarkMode()
   const [content, setContent] = useState(post.content);
   const [imageSrc, setImageSrc] = useState(post.images ? post.images[0] : '');
   const {name} = JSON.parse(localStorage.getItem("userDetails"))
@@ -629,7 +634,7 @@ function EditPostModal({setShowEditPostModal, setShowEditModal, post, setPosts, 
           }} className='create-post-modal-container'>
             <div onClick={(e)=>{
               e.stopPropagation()
-            }} className='create-post-modal'>
+            }} className={`create-post-modal ${darkMode ? 'dark': ''}`}>
               <button onClick={()=>{
                 setShowEditModal(false)
                 setShowEditPostModal(false)
@@ -641,7 +646,7 @@ function EditPostModal({setShowEditPostModal, setShowEditModal, post, setPosts, 
 
               <div className='create-post-modal-share-box'>
 
-                <div className='create-post-modal-share-box-header'>
+                <div className={`create-post-modal-share-box-header ${darkMode ? 'dark': ''}`}>
                   <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
                   <div>
                     <span>{name}</span>
@@ -649,12 +654,12 @@ function EditPostModal({setShowEditPostModal, setShowEditModal, post, setPosts, 
                   </div>
                 </div>
 
-                <div className='create-post-modal-share-box-content-container'>
+                <div className={`create-post-modal-share-box-content-container ${darkMode ? 'dark': ''}`}>
 
-                  <div className='create-post-modal-share-box-content'>
+                  <div className={`create-post-modal-share-box-content ${darkMode ? 'dark': ''}`}>
 
                     <div  
-                      className="ql-editor ql-blank" 
+                      className={`ql-editor ql-blank ${darkMode ? 'dark': ''}`} 
                       data-gramm="false" 
                       contentEditable="true" 
                       data-placeholder={`${content ? "" : "What do you want to talk about?"}`} 
@@ -687,7 +692,7 @@ function EditPostModal({setShowEditPostModal, setShowEditModal, post, setPosts, 
 
                   </div>
 
-                  <div className='create-post-modal-share-box-content-post'>
+                  <div className={`create-post-modal-share-box-content-post ${darkMode ? 'dark': ''}`}>
                     
                     <div >
                       <label htmlFor="file-input">
@@ -717,6 +722,8 @@ function EditPostModal({setShowEditPostModal, setShowEditModal, post, setPosts, 
 }
 
 function Comments({id}){
+
+  const {darkMode} = useDarkMode()
   const {name} = JSON.parse(localStorage.getItem("userDetails"))
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState("")
@@ -731,8 +738,8 @@ function Comments({id}){
     postComment(id, newComment, setComments, setNewComment)
   }
   return(
-    <div className='feedPgae-main-post-comments-container'>
-      <div className='feedPgae-main-post-comment-input'>
+    <div className={`feedPgae-main-post-comments-container ${darkMode ? 'dark': ''}`}>
+      <div className={`feedPgae-main-post-comment-input ${darkMode ? 'dark': ''}`}>
         <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
         <input onChange={handleInput} value={newComment} type="text" placeholder='Add a comment...' />
         {newComment && <span onClick={handlePostComment}>Post</span>}
@@ -748,6 +755,7 @@ function Comments({id}){
 }
 
 function SingleComment({index, comment, setComments}){
+  const {darkMode} = useDarkMode()
   const random = useMemo(()=>Math.floor(Math.random() * 30),[]);
   const myElementRef = useRef()
   const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false);
@@ -755,7 +763,7 @@ function SingleComment({index, comment, setComments}){
     setShowDeleteCommentModal(n=>!n)
   }
   return(
-    <div className='feedPgae-main-post-comment'>
+    <div className={`feedPgae-main-post-comment ${darkMode ? 'dark': ''}`}>
 
       <img src={`https://ui-avatars.com/api/?name=${namesArr[random].slice(0,1)}&background=random`} alt="" />
 
@@ -781,6 +789,7 @@ function SingleComment({index, comment, setComments}){
 
 function DeleteCommentModal({index, myElementRef, setShowModal, comment, setComments}){
 
+  const {darkMode} = useDarkMode()
   function setModalFalse(e){
     if(!myElementRef.current.contains(e.target)){
       setShowModal(false)
@@ -805,7 +814,7 @@ function DeleteCommentModal({index, myElementRef, setShowModal, comment, setComm
     },200)
   }
   return(
-    <div onClick={handleDeleteComment} className='deleteComment-modal'>
+    <div onClick={handleDeleteComment} className={`deleteComment-modal ${darkMode ? 'dark': ''}`}>
       <img src="data:image/png;base64,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" alt="" />
       <span>Delete</span>
     </div>
