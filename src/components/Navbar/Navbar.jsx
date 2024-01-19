@@ -261,6 +261,12 @@ function NavbarProfileModal ({myElementRef, setShowModal}){
         <span>Dark mode</span>
         <span onClick={()=>{
           setDarkMode(prev=>!prev)
+          if(darkMode){
+            sessionStorage.removeItem("linkedin-darkMode")
+          }
+          else{
+            sessionStorage.setItem("linkedin-darkMode", true)
+          }
         }}><CustomizedSwitches /></span>
       </div>
       <span className='logout-btn' onClick={handleLogout}>Logout</span>
