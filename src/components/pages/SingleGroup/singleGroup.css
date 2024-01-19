@@ -43,6 +43,20 @@
     }
     
 }
+.single-group-details.dark{
+    >p{
+        color: rgb(255 255 255/.9);
+    }
+    >div{
+        >button{
+            color: #1b1f23;
+        }
+        >span{
+            color: rgb(255 255 255 /.6);
+        }
+    }
+    
+}
 .single-group-about{
     padding: 20px;
     >p{
@@ -58,10 +72,23 @@
         }
     }
 }
+.single-group-about.dark{
+    >p{
+        color: rgb(255 255 255/.9);
+    }
+    >div{
+        >p{
+            color: rgb(255 255 255/.7);
+        }
+    }
+}
 .group-posts-container{
     margin-top: 1rem;
 }
 .group-no-post-found{
     padding: 20px;
     text-align: center;
+}
+.group-no-post-found.dark{
+    color: rgb(255 255 255/.9);
 }

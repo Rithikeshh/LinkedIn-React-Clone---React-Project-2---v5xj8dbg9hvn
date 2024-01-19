@@ -4,8 +4,10 @@ import getAllChannels from '../../utils/getAllChannels';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import createGroup from '../../utils/createGroup';
+import { useDarkMode } from '../../providers/DarkModeProvider';
 function Groups({loading, setLoading}) {
 
+  const {darkMode} = useDarkMode()
   const {name} = JSON.parse(localStorage.getItem("userDetails"))
   const [groups, setGroups] = React.useState(
     ()=>{
@@ -34,16 +36,16 @@ function Groups({loading, setLoading}) {
       <div className='feedPage-layout-container'>
         <div className='groupPage-layout'>
             <div className='groupPage-layout--main'>
-                <div className='groupPage-common-container'>
+                <div className={`groupPage-common-container ${darkMode ? 'dark' : ''}`}>
                     <div className='create-and-discover-group-container'>
-                        <div className='create-and-your-groups'>
+                        <div className={`create-and-your-groups ${darkMode ? 'dark' : ''}`}>
                           <p>Your groups</p>
                           <button onClick={()=>setShowModal(true)}>Create group</button>
                         </div>
                         <div className='groupPage-my-groups'>
                           {
                             groups.length == 0 ?
-                            <div className='groupPage-empty-my-groups'>
+                            <div className={`groupPage-empty-my-groups ${darkMode ? 'dark' : ''}`}>
                               <h2>Discover Groups</h2>
                               <p>Find other trusted communities that share and support your goals.</p>
                               <button>Discover</button>
@@ -53,7 +55,7 @@ function Groups({loading, setLoading}) {
                               {groups.map((item,index)=>(
                                 <div onClick={()=>{
                                   handleNavigate(item._id)
-                                }} key={index} className='myGroups-item'>
+                                }} key={index} className={`myGroups-item ${darkMode ? 'dark' : ''}`}>
                                   {
                                     item.image ? 
                                     <img src={item.image} alt="" />
@@ -75,20 +77,20 @@ function Groups({loading, setLoading}) {
             </div>
 
             <div className='groupPage-layout--aside'>
-                <div className='groupPage-common-container'>
-                    <div className='group-seggestion-heading'>
+                <div className={`groupPage-common-container ${darkMode ? 'dark' : ''}`}>
+                    <div className={`group-seggestion-heading ${darkMode ? 'dark' : ''}`}>
                       <span>Groups you might be interested in</span>
                       <div className='suggested-groups-container'>
                         {
-                          suggestedGroups.reverse().map((item, index)=>(
+                          suggestedGroups.map((item, index)=>(
                             <SuggestedGroupCard key={index} item={item} groups={groups} setGroups={setGroups}/>
                           ))
                         }
                       </div>
                     </div>
                 </div>
-                <div className='feedPage-layout--aside-social-connect-container'>
-                    <div className='feedPage-layout--aside-social-connect'>
+                <div className={`feedPage-layout--aside-social-connect-container ${darkMode ? 'dark': ''}`}>
+                    <div className={`feedPage-layout--aside-social-connect ${darkMode ? 'dark': ''}`}>
                         <p>Ad</p>
                         <div>
                             <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
@@ -111,6 +113,7 @@ export default Groups
 
 function CreateGroupModal({setShowModal, setGroups}){
 
+  const {darkMode} = useDarkMode()
   const [imageSrc, setImageSrc] = useState("");
   const [groupName, setGroupName] = useState("");
   const [groupDescription, setGroupDescription] = useState("")
@@ -149,7 +152,7 @@ function CreateGroupModal({setShowModal, setGroups}){
           <div onClick={()=>{
             setShowModal(false)
           }} className='create-post-modal-container'>
-            <div onClick={(e)=>e.stopPropagation()} className='create-group-modal'>
+            <div onClick={(e)=>e.stopPropagation()} className={`create-group-modal ${darkMode ? 'dark' : ''}`}>
               <button onClick={()=>{
                 setShowModal(false)
               }}>
@@ -157,11 +160,11 @@ function CreateGroupModal({setShowModal, setGroups}){
                   <path d="M13.42 12L20 18.58 18.58 20 12 13.42 5.42 20 4 18.58 10.58 12 4 5.42 5.42 4 12 10.58 18.58 4 20 5.42z"></path>
                 </svg>
               </button>
-              <div className='create-group-heading'>
+              <div className={`create-group-heading ${darkMode ? 'dark' : ''}`}>
                 <span>Create group</span>
               </div>
               <div className='create-group-details'>
-                <div className='group-cover-image'>
+                <div className={`group-cover-image ${darkMode ? 'dark' : ''}`}>
                   {imageSrc ? 
                     <img src={imageSrc} alt='' />
                     :
@@ -174,7 +177,7 @@ function CreateGroupModal({setShowModal, setGroups}){
                   </label>
                   <input onInput={handleFileInput} id='group-image' type="file" />
                 </div>
-                <div className='group-name-input-container'>
+                <div className={`group-name-input-container ${darkMode ? 'dark' : ''}`}>
                   <label htmlFor="group-name">
                     Group name*
                   </label>
@@ -186,7 +189,7 @@ function CreateGroupModal({setShowModal, setGroups}){
                     onChange={(e)=>setGroupName(e.target.value)}
                   />
                 </div>
-                <div className='group-description-input-container'>
+                <div className={`group-description-input-container ${darkMode ? 'dark' : ''}`}>
                   <label htmlFor="group-description">
                     Description*
                   </label>
@@ -198,7 +201,7 @@ function CreateGroupModal({setShowModal, setGroups}){
                   ></textarea>
                 </div>
               </div>
-              <div className={`create-group-buttons ${createBtnActive ? 'active-create-group-buttons' : ''}`}>
+              <div className={`create-group-buttons ${darkMode ? 'dark' : ''} ${createBtnActive ? 'active-create-group-buttons' : ''}`}>
                 <button onClick={handleCreateGroup}>Create</button>
               </div>
             </div>
@@ -215,6 +218,7 @@ function CreateGroupModal({setShowModal, setGroups}){
 export function SuggestedGroupCard({item, groups, setGroups}){
 
   const navigate = useNavigate()
+  const {darkMode} = useDarkMode()
 
   function addToMyGroups(){
     const myGroups = localStorage.getItem("linkedin-myGroups")
@@ -245,7 +249,7 @@ export function SuggestedGroupCard({item, groups, setGroups}){
     navigate(`/group/${item._id}`)
   }
   return(
-    <div className='suggested-group-card'>
+    <div className={`suggested-group-card ${darkMode ? 'dark' : ''}`}>
       <div>
         {
           item.image ? 

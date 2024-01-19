@@ -6,11 +6,13 @@ import { SuggestedGroupCard } from '../Groups/Groups'
 import "./singleGroup.css"
 import { createPortal } from 'react-dom'
 import SpinnerLoader from '../../SpinnerLoader/SpinnerLoader'
+import { useDarkMode } from '../../providers/DarkModeProvider'
 
 
 
 function SingleGroup({ loading, setLoading }) {
 
+    const {darkMode} = useDarkMode()
     const {name, id} = JSON.parse(localStorage.getItem("userDetails"))
     const [suggestedGroups, setSuggestedGroups] = useState([])
     const [group, setGroup] = useState(null)
@@ -126,7 +128,7 @@ function SingleGroup({ loading, setLoading }) {
                     <div className='feedPage-layout--sidebar'>
 
                         {/* Profile */}
-                        <div className='feedPage-layout--sidebar-profile'>
+                        <div className={`feedPage-layout--sidebar-profile ${darkMode ? 'dark': ''}`}>
 
                             <div className='feedPage-layout--sidebar-profile-nameAndImage'>
 
@@ -135,16 +137,16 @@ function SingleGroup({ loading, setLoading }) {
                                     <div>
                                         <img className='feedPage-layout--sidebar-profile-image' src={`https://ui-avatars.com/api/?name=${name.slice(0, 1)}&background=random`} alt="" />
                                     </div>
-                                    <div className='feedPage-layout--sidebar-profile-name'>{name}</div>
+                                    <div className={`feedPage-layout--sidebar-profile-name ${darkMode ? 'dark': ''}`}>{name}</div>
                                 </Link>
-                                <p className='feedPage-layout--sidebar-profile-job'>Full Stack Web Developer</p>
+                                <p className={`feedPage-layout--sidebar-profile-job ${darkMode ? 'dark': ''}`}>Full Stack Web Developer</p>
 
                             </div>
 
                         </div>
 
                         {/* Groups */}
-                        <div className='feedPage-layout--sidebar-groupAndChannel'>
+                        <div className={`feedPage-layout--sidebar-groupAndChannel ${darkMode ? 'dark': ''}`}>
                             <div>
                                 <Link to="/groups">Groups</Link>
                                 <Link to="#">Events</Link>
@@ -159,7 +161,7 @@ function SingleGroup({ loading, setLoading }) {
                     <div className='feedPage-layout--main'>
 
                         {/* create post */}
-                        <div className='feedPage-main--box'>
+                        <div className={`feedPage-main--box ${darkMode ? 'dark': ''}`}>
                             <div className='single-group-cover-image'>
                     
                                 {group.image ? 
@@ -169,7 +171,7 @@ function SingleGroup({ loading, setLoading }) {
                                 }
                     
                             </div>
-                            <div className='single-group-details'>
+                            <div className={`single-group-details ${darkMode ? 'dark': ''}`}>
                                 <p>{group.name}</p>
                                 {groups.find((item)=>{
                                     return item._id === group._id
@@ -190,8 +192,8 @@ function SingleGroup({ loading, setLoading }) {
                             </div>
                         </div>
 
-                        <div className='feedPage-main--box'>
-                            <div className='single-group-about'>
+                        <div className={`feedPage-main--box ${darkMode ? 'dark': ''}`}>
+                            <div className={`single-group-about ${darkMode ? 'dark': ''}`}>
                                 <p>About this group</p>
                                 <div>
                                     <p>{group.description}</p>
@@ -211,8 +213,8 @@ function SingleGroup({ loading, setLoading }) {
                                     }
                                 </>
                                 :
-                                <div className='feedPage-main--box'>
-                                    <div className='group-no-post-found'>
+                                <div className={`feedPage-main--box ${darkMode ? 'dark': ''}`}>
+                                    <div className={`group-no-post-found ${darkMode ? 'dark': ''}`}>
                                         This group has no post yet!
                                     </div>
                                 </div>
@@ -222,12 +224,12 @@ function SingleGroup({ loading, setLoading }) {
 
                     {/* aside */}
                     <div className='feedPage-layout--aside'>
-                        <div className='groupPage-common-container'>
-                            <div className='group-seggestion-heading'>
+                        <div className={`groupPage-common-container ${darkMode ? 'dark' : ''}`}>
+                            <div className={`group-seggestion-heading ${darkMode ? 'dark' : ''}`}>
                                 <span>Groups you might be interested in</span>
                                 <div className='suggested-groups-container'>
                                     {
-                                    suggestedGroups.reverse().map((item, index)=>(
+                                    suggestedGroups.map((item, index)=>(
                                         <SuggestedGroupCard key={index} item={item} groups={groups} />
                                     ))
                                     }
@@ -261,6 +263,7 @@ export default SingleGroup
 
 const SinglePost=({post, group})=>{
 
+    const {darkMode} = useDarkMode()
     const contentContainerRef = useRef()
     const [showSeeMore, setShowSeeMore] = useState(false)
     const [fitContent, setFitContent] = useState(true)
@@ -276,11 +279,11 @@ const SinglePost=({post, group})=>{
       },[])
     return(
       
-      <div className='feedPage-main--box'>
+      <div className={`feedPage-main--box ${darkMode ? 'dark': ''}`}>
   
         <div className='feedPage-main-post'>
   
-          <div className='feedPgae-main-post--imageAndName-container'>
+          <div className={`feedPgae-main-post--imageAndName-container ${darkMode ? 'dark': ''}`}>
             {/* <img src={post.author.profileImage} alt="" /> */}
             {group.image ? 
                 <img src={group.image} alt='' />
@@ -299,8 +302,8 @@ const SinglePost=({post, group})=>{
             ref={contentContainerRef}
           >
             
-            <span  className='feedPgae-main-post--content'>{post.content}</span>
-            {showSeeMore && <span className='content-see-more' onClick={handleContentHeight}>...see more</span>}
+            <span  className={`feedPgae-main-post--content ${darkMode ? 'dark': ''}`}>{post.content}</span>
+            {showSeeMore && <span className={`content-see-more ${darkMode ? 'dark': ''}`} onClick={handleContentHeight}>...see more</span>}
           </div>
   
           {post.images?.[0] && <img className='feedPgae-main-post--content-image' src={post.images[0]} alt="" />}
@@ -312,6 +315,7 @@ const SinglePost=({post, group})=>{
 
   function CreatePostModal({setShowPostModal, getPosts, group}){
   
+    const {darkMode} = useDarkMode()
     const [content, setContent] = useState('');
     const [imageSrc, setImageSrc] = useState('');
     const {name} = JSON.parse(localStorage.getItem("userDetails"))
@@ -402,7 +406,7 @@ const SinglePost=({post, group})=>{
             }} className='create-post-modal-container'>
               <div onClick={(e)=>{
                 e.stopPropagation()
-              }} className='create-post-modal'>
+              }} className={`create-post-modal ${darkMode ? 'dark': ''}`}>
                 <button onClick={()=>{
                   setShowPostModal(false)
                 }}>
@@ -413,7 +417,7 @@ const SinglePost=({post, group})=>{
   
                 <div className='create-post-modal-share-box'>
   
-                  <div className='create-post-modal-share-box-header'>
+                  <div className={`create-post-modal-share-box-header ${darkMode ? 'dark': ''}`}>
                     <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
                     <div>
                       <span>{name}</span>
@@ -426,7 +430,7 @@ const SinglePost=({post, group})=>{
                     <div className='create-post-modal-share-box-content'>
   
                       <div  
-                        className="ql-editor ql-blank" 
+                        className={`ql-editor ql-blank ${darkMode ? 'dark': ''}`}
                         data-gramm="false" 
                         contentEditable="true" 
                         data-placeholder={`${content ? "" : "What do you want to talk about?"}`} 
@@ -443,7 +447,7 @@ const SinglePost=({post, group})=>{
                       </div>
   
                       {imageSrc &&
-                        <div className='ql-image-container'>
+                        <div className={`ql-image-container ${darkMode ? 'dark': ''}`}>
                           <button onClick={()=>{
                             setImageSrc("")
                           }}>
@@ -459,7 +463,7 @@ const SinglePost=({post, group})=>{
   
                     </div>
   
-                    <div className='create-post-modal-share-box-content-post'>
+                    <div className={`create-post-modal-share-box-content-post ${darkMode ? 'dark': ''}`}>
                       
                       <div >
                         <label htmlFor="file-input">

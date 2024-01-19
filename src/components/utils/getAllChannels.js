@@ -12,7 +12,7 @@ export default async function getAllChannels(setSuggestedGroups, setLoading){
             }
         )
         
-        setSuggestedGroups(response.data.data)
+        setSuggestedGroups(response.data.data.reverse())
         setLoading(false)
     } catch (error) {
         console.log(error);

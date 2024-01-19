@@ -3,9 +3,11 @@ import "./SearchPage.css"
 import { useSearchParams } from 'react-router-dom';
 import { useSearch } from '../../providers/SearchProvider';
 import { SinglePost } from '../Feed/Feed';
+import { useDarkMode } from '../../providers/DarkModeProvider';
 
 function SearchPage({loading, setLoading}) {
 
+    const {darkMode} = useDarkMode()
     const [searchedData, setSearchedData] = useState([])
     const {searchTerm , searchField, setSearchField} = useSearch()
     const {name} = JSON.parse(localStorage.getItem("userDetails"))
@@ -45,8 +47,8 @@ function SearchPage({loading, setLoading}) {
     <div className='all-content-container'>
 
         <div className='feedPage-layout-container'>
-            <nav className='searchPage-field-navbar'>
-                <ul className='searchPage-field-lists'>
+            <nav className={`searchPage-field-navbar ${darkMode ? 'dark' : ''}`}>
+                <ul className={`searchPage-field-lists ${darkMode ? 'dark' : ''}`}>
                     <li>search posts by: </li>
                     <li className={`${searchField.includes('content') ? 'active': 'unactive'}`} onClick={(e)=>{
                         setSearchField("content")
@@ -67,8 +69,8 @@ function SearchPage({loading, setLoading}) {
                 
                 {/* sidebar */}
                 <div className='feedPage-layout--sidebar'>
-                    <div style={{top: "120px"}} className='feedPage-layout--aside-social-connect-container'>
-                        <div className='searchPage-sidebar-content'>
+                    <div style={{top: "120px"}} className={`feedPage-layout--aside-social-connect-container ${darkMode ? 'dark': ''}`}>
+                        <div className={`searchPage-sidebar-content ${darkMode ? 'dark' : ''}`}>
                             <span>On this page</span>
                             <p>Posts</p>
                         </div>
@@ -78,8 +80,8 @@ function SearchPage({loading, setLoading}) {
                 {/* main */}
                 <div className='feedPage-layout--main'>
                 {searchedData.length == 0 ?
-                    <div className='feedPage-main--box'>
-                        <div className='no-post-found'>
+                    <div className={`feedPage-main--box ${darkMode ? 'dark':''}`}>
+                        <div className={`no-post-found ${darkMode ? 'dark':''}`}>
                             Sorry No Post Found!
                         </div>
                     </div>
@@ -93,8 +95,8 @@ function SearchPage({loading, setLoading}) {
 
                 {/* aside */}
                 <div className='feedPage-layout--aside'>
-                    <div style={{top: "120px"}} className='feedPage-layout--aside-social-connect-container'>
-                        <div className='feedPage-layout--aside-social-connect'>
+                    <div style={{top: "120px"}} className={`feedPage-layout--aside-social-connect-container ${darkMode ? 'dark': ''}`}>
+                        <div className={`feedPage-layout--aside-social-connect ${darkMode ? 'dark': ''}`}>
                         <p>Ad</p>
                         <div>
                             <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />

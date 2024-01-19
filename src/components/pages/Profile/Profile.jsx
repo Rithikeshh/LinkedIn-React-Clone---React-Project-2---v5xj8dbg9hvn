@@ -3,9 +3,11 @@ import "./Profile.css"
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import SpinnerLoader from '../../SpinnerLoader/SpinnerLoader'
+import { useDarkMode } from '../../providers/DarkModeProvider'
 
 function Profile({ loading, setLoading }) {
 
+    const {darkMode} = useDarkMode()
     const param = useParams()
     const [user, setUser] = useState(null)
     const [loader, setLoader] = useState(true);
@@ -65,20 +67,20 @@ function Profile({ loading, setLoading }) {
                 <div className='feedPage-layout-container'>
                     <div className='groupPage-layout'>
                         <div className='groupPage-layout--main'>
-                            <div className='feedPage-main--box'>
+                            <div className={`feedPage-main--box ${darkMode ? 'dark':''}`}>
                                 <div className='image-and-cover-container'>
                                     <img className='profile-cover' src="https://img.freepik.com/free-photo/old-cement-wall-texture_1149-1280.jpg" alt="" />
                                     {
                                     user.profileImage ? 
-                                    <img className='profile-image' src={user.profileImage} alt=''/>
+                                    <img className={`profile-image ${darkMode ? 'dark':''}`} src={user.profileImage} alt=''/>
                                     : 
-                                    <img className='profile-image' src={`https://ui-avatars.com/api/?name=${user.name.slice(0, 1)}&background=random`}/>
+                                    <img className={`profile-image ${darkMode ? 'dark':''}`} src={`https://ui-avatars.com/api/?name=${user.name.slice(0, 1)}&background=random`}/>
                                     }
                                 </div>
-                                <p className='profile-name'>{user.name}</p>
-                                <p className='profile-dummy-description'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque nesciunt sequi error eum in, praesentium facilis, non magni voluptatum laboriosam quaerat modi quis ratione vel quasi? Quas modi animi placeat.</p>
-                                {id !== user._id  && <p className='profile-msg'>Connecting and Messaging feature is not available</p>}
-                                <div className='profile-dummy-button'>
+                                <p className={`profile-name ${darkMode ? 'dark':''}`}>{user.name}</p>
+                                <p className={`profile-dummy-description ${darkMode ? 'dark':''}`}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque nesciunt sequi error eum in, praesentium facilis, non magni voluptatum laboriosam quaerat modi quis ratione vel quasi? Quas modi animi placeat.</p>
+                                {id !== user._id  && <p className={`profile-msg ${darkMode ? 'dark':''}`}>Connecting and Messaging feature is not available</p>}
+                                <div className={`profile-dummy-button ${darkMode ? 'dark':''}`}>
                                     {id !== user._id ?
                                         <>
                                             <button onClick={handleConnect}>
@@ -99,8 +101,8 @@ function Profile({ loading, setLoading }) {
                                 </div>
                             </div>
 
-                            <div className='feedPage-main--box'>
-                                <div className='profile-dummy-about'>
+                            <div className={`feedPage-main--box ${darkMode ? 'dark':''}`}>
+                                <div className={`profile-dummy-about ${darkMode ? 'dark':''}`}>
                                     <h3>About</h3>
                                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos enim excepturi officiis ipsum, sunt iure repellat recusandae? Doloremque maxime rerum consectetur perspiciatis quae facilis.</p>
                                     <p> Quam minima, eligendi saepe, magnam impedit?
@@ -110,8 +112,8 @@ function Profile({ loading, setLoading }) {
                             </div>
                         </div>
                         <div className='groupPage-layout--aside'>
-                            <div className='feedPage-layout--aside-social-connect-container'>
-                                <div className='feedPage-layout--aside-social-connect'>
+                            <div className={`feedPage-layout--aside-social-connect-container ${darkMode ? 'dark': ''}`}>
+                                <div className={`feedPage-layout--aside-social-connect ${darkMode ? 'dark': ''}`}>
                                     <p>Ad</p>
                                     <div>
                                         <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />

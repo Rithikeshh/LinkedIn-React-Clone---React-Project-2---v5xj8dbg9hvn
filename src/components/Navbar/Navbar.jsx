@@ -37,7 +37,6 @@ function Navbar() {
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
           setSearchTerm(stretchSearchRef.current.value)
-          console.log(searchField);
           // navigate({
           //   pathname: "/search",
           //   search: createSearchParams({
@@ -224,8 +223,6 @@ function NavbarProfile(){
 function NavbarProfileModal ({myElementRef, setShowModal}){
 
   const {darkMode, setDarkMode} = useDarkMode()
-  console.log(darkMode);
-  console.log(setDarkMode);
 
   const navigate = useNavigate();
   const {setIsLoggedIn} = useAuth()
@@ -253,14 +250,14 @@ function NavbarProfileModal ({myElementRef, setShowModal}){
     }}>
       <div onClick={()=>{
         navigate(`/profile/${id}`)
-      }} className='modal-profile-intro-container'>
+      }} className={`modal-profile-intro-container ${darkMode ? 'dark': ''}`}>
         <div>
           <img src={`https://ui-avatars.com/api/?name=${name.slice(0,1)}&background=random`} alt="" />
           <span>{name}</span>
         </div>
         <button>view profile</button>
       </div>
-      <div className='dark-mode-btn'>
+      <div className={`dark-mode-btn ${darkMode ? 'dark': ''}`}>
         <span>Dark mode</span>
         <span onClick={()=>{
           setDarkMode(prev=>!prev)

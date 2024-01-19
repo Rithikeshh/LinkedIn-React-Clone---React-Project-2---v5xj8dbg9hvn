@@ -20,6 +20,15 @@
         cursor: not-allowed;
     }
 }
+.premium-details-container.dark{
+    
+    >p{
+        color: rgb(255 255 255/.6);
+    }
+    >button{
+        background-color: #1b1f23;
+    }
+}
 .premium-card-container{
     display: flex;
     width: 100%;
@@ -55,6 +64,15 @@
         margin-top: 0.2rem;
     }
 }
+.premium-card.dark{
+    
+    >p{
+        color: rgb(255 255 255/.9);
+    }
+    >p:last-child{
+        color: rgb(255 255 255/.6);
+    }
+}
 .premium-reach{
     display: flex;
     flex-direction: column;
@@ -69,5 +87,10 @@
     }
     >p:last-child{
         font-weight: 500;
+    }
+}
+.premium-reach.dark{
+    >p:last-child{
+        color: rgb(255 255 255/.9);
     }
 }

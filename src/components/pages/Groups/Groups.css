@@ -20,6 +20,9 @@
     border: none;
     box-shadow: 0px 0px 0px 1px rgb(140 140 140/.2);
 }
+.groupPage-common-container.dark{
+    background-color: #1b1f23;
+}
 .create-and-discover-group-container{
     min-height: calc(100vh - 52px - 49px);
 }
@@ -46,6 +49,9 @@
         font-size: 16px;
         cursor: pointer;
     }
+}
+.create-and-your-groups.dark{
+    border-bottom: 1px solid rgb(255 255 255/.1);
 }
 .groupPage-my-groups{
     padding: 1rem;
@@ -84,6 +90,14 @@
         margin-top: 1rem;
     }
 }
+.groupPage-empty-my-groups{
+    >h2{
+        color: rgb(255 255 255/0.9);
+    }
+    >p{
+        color: rgb(255 255 255/.6);
+    }
+}
 .myGroups-list{
     display: flex;
     flex-direction: column;
@@ -112,10 +126,25 @@
         }
     }
 }
+.myGroups-item.dark{
+    >div{
+        >span:first-child{
+            color: rgb(255 255 255/0.9);
+        }
+        >span:last-child{
+            color: rgb(255 255 255/0.6);
+        }
+    }
+}
 .group-seggestion-heading{
     padding: 16px;
     >span{
         font-weight: 500;
+    }
+}
+.group-seggestion-heading.dark{
+    >span{
+        color: rgb(255 255 255/0.9);
     }
 }
 .suggested-groups-container{
@@ -159,6 +188,23 @@
         margin-bottom: 1rem;
     }
 }
+.suggested-group-card.dark{
+    border-bottom: 1px solid rgb(255 255 255/.2);
+    >div{
+        >div{
+            >span:first-child{
+                color: rgb(255 255 255/0.9);
+            }
+            >span:last-child{
+                color: rgb(255 255 255/0.6);
+            }
+        }
+    }
+    >button{
+        border: 1px solid rgb(255 255 255/.6);
+        color: rgb(255 255 255/.6);
+    }
+}
 .suggested-group-card:last-child{
     border-bottom: none;
 }
@@ -200,10 +246,22 @@
     }
     
 }
+.create-group-modal.dark{
+    background-color: #1b1f23;
+    >button{
+        color: rgb(255 255 255/.6);
+        &:hover{
+            background-color: rgb(255 255 255/ .1);
+        }
+    }
+}
 .create-group-heading{
     padding: 16px 20px;
     font-weight: 500;
     font-size: larger;
+}
+.create-group-heading.dark{
+    color: rgb(255 255 255/0.9);
 }
 .create-group-details{
     min-height: 60px;
@@ -244,6 +302,14 @@
         display: none;
     }
 }
+.group-cover-image.dark{
+    
+    >label{
+        background-color: #1b1f23;
+        color: rgb(255 255 255/.6);
+        border: 1px solid rgb(255 255 255/.6);
+    }
+}
 .group-name-input-container{
     padding-inline: 20px;
     margin-top: 38px;
@@ -252,6 +318,14 @@
     >input{
         margin-top: 2px;
         padding-block: 6px;
+    }
+}
+.group-name-input-container.dark{
+    color: rgb(255 255 255/0.9);
+    >input{
+        background-color: #1b1f23;
+        border: 1px solid rgb(255 255 255/0.6);
+        color: rgb(255 255 255/0.6);
     }
 }
 .group-description-input-container{
@@ -266,6 +340,14 @@
         resize: vertical;
     }
     
+}
+.group-description-input-container.dark{
+    color: rgb(255 255 255/0.9);
+    >textarea{
+        background-color: #1b1f23;
+        border: 1px solid rgb(255 255 255/0.6);
+        color: rgb(255 255 255/0.6);
+    }
 }
 .create-group-buttons{
     padding: 20px;
@@ -282,6 +364,16 @@
         cursor: not-allowed;
     }
 }
+.create-group-buttons.dark{
+    border-top: 1px solid rgb(255 255 255/.3);
+    >button{
+        border: 1px solid rgb(255 255 255/.3);
+        background-color: transparent;
+        color: rgb(255 255 255/.6);
+        background-color: rgb(255 255 255/.1);;
+        cursor: not-allowed;
+    }
+}
 .active-create-group-buttons{
     >button{
         font-weight: 500;
@@ -290,6 +382,17 @@
         border: 1px solid #186FC6;
         background-color: transparent;
         color: #186FC6;
+        cursor: pointer;
+    }
+}
+.active-create-group-buttons.dark{
+    >button{
+        font-weight: 500;
+        border-radius: 24px;
+        padding: 4px 16px;
+        border: 1px solid #186FC6;
+        background-color: #186FC6;
+        color: #1b1f23;
         cursor: pointer;
     }
 }
