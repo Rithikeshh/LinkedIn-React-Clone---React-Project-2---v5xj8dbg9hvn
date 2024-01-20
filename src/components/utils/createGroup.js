@@ -1,10 +1,10 @@
 import axios from 'axios'
 import getSingleGroup from './getSingleGroup';
-export default async function createGroup(postTitle, postContent, imageSrc, setShowPostModal, setGroups){
+export default async function createGroup(postTitle, postContent, imageSrc, setShowPostModal, setGroups, setError){
 
    
     try {
-        const token = localStorage.getItem("userToken");
+        const token = sessionStorage.getItem("userToken");
         const formData = new FormData();
         formData.append("name", postTitle);
         formData.append("description", postContent);
@@ -33,6 +33,11 @@ export default async function createGroup(postTitle, postContent, imageSrc, setS
         
     } catch (error) {
         console.log(error);
+        setError(true)
+        setTimeout(()=>{
+            setError(false)
+        },5000)
+
     }
     finally{
         setShowPostModal(false)

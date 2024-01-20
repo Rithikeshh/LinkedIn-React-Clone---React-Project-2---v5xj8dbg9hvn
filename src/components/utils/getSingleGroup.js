@@ -3,7 +3,7 @@ import axios from 'axios'
 export default async function getSingleGroup(id, setGroups){
 
     try {
-        const token = localStorage.getItem("userToken");
+        const token = sessionStorage.getItem("userToken");
         const response = await axios.get(`https://academics.newtonschool.co/api/v1/linkedIn/channel/${id}`,
             {
                 headers: {
@@ -12,16 +12,16 @@ export default async function getSingleGroup(id, setGroups){
                 }
             }
         )
-        const myGroups = localStorage.getItem("linkedin-myGroups")
+        const myGroups = sessionStorage.getItem("linkedin-myGroups")
             if(myGroups){
                 let parsedMyGroups = JSON.parse(myGroups)
                 parsedMyGroups = [...parsedMyGroups, response.data.data]
-                localStorage.setItem("linkedin-myGroups",JSON.stringify(parsedMyGroups))
+                sessionStorage.setItem("linkedin-myGroups",JSON.stringify(parsedMyGroups))
             }else{
-                localStorage.setItem("linkedin-myGroups",JSON.stringify([response.data.data]))
+                sessionStorage.setItem("linkedin-myGroups",JSON.stringify([response.data.data]))
             }
             setGroups(prev=>{
-                return JSON.parse(localStorage.getItem("linkedin-myGroups"))
+                return JSON.parse(sessionStorage.getItem("linkedin-myGroups"))
             })
         
     } catch (error) {

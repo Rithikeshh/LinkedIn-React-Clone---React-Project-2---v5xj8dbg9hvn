@@ -3,7 +3,7 @@ import axios from 'axios'
 export default async function getAllChannels(setSuggestedGroups, setLoading){
 
     try {
-        const token = localStorage.getItem("userToken");
+        const token = sessionStorage.getItem("userToken");
         const response = await axios.get('https://academics.newtonschool.co/api/v1/linkedin/channel?limit=50',
             {
                 headers: {

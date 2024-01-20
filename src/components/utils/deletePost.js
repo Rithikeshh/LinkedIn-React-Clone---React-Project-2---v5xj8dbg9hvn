@@ -1,6 +1,6 @@
 import axios from 'axios'
 export default async function deletePost(id){
-    const token = localStorage.getItem("userToken");
+    const token = sessionStorage.getItem("userToken");
     
     try {
         const result = await axios.delete(`https://academics.newtonschool.co/api/v1/linkedIn/post/${id}`,

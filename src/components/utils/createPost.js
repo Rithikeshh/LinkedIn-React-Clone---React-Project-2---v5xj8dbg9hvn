@@ -3,7 +3,7 @@ export default async function createPost(postTitle, postContent, imagePreviewRef
 
    
     try {
-        const token = localStorage.getItem("userToken");
+        const token = sessionStorage.getItem("userToken");
 
         const formData = new FormData();
         formData.append("title", postTitle);
@@ -39,7 +39,7 @@ export default async function createPost(postTitle, postContent, imagePreviewRef
     }
 
     
-    // const token = localStorage.getItem("userToken");
+    // const token = sessionStorage.getItem("userToken");
 
     // const data = new FormData();
     // data.append("title", postTitle)

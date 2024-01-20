@@ -2,13 +2,13 @@ import React from 'react'
 import { useAuth } from '../providers/AuthProvider'
 import { Navigate } from 'react-router-dom'
 
-function AuthNavigator({children}) {
-    const {isLoggedIn} = useAuth()
+function AuthNavigator({ children }) {
+  const { isLoggedIn } = useAuth()
   return (
-    isLoggedIn ? 
-    children 
-    :
-    <Navigate to='/'/>
+    isLoggedIn ?
+      children
+      :
+      <Navigate to='/' />
   )
 }
 

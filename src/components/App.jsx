@@ -5,9 +5,7 @@ import Home from "./pages/Home/Home";
 import AuthProvider from "./providers/AuthProvider";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
-import Feed from "./pages/Feed/Feed";
 import AuthNavigator from "./navigator/AuthNavigator";
-import MyNetwork from "./pages/MyNetwork/MyNetwork";
 import DarkModeProvider from "./providers/DarkModeProvider";
 
 function App() {

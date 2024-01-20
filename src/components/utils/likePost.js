@@ -1,5 +1,5 @@
 export default async function likePost(id, setLikeCount){
-    const token = localStorage.getItem("userToken");
+    const token = sessionStorage.getItem("userToken");
     const config = {
         method: 'POST',
         headers: {
@@ -10,12 +10,12 @@ export default async function likePost(id, setLikeCount){
     try {
         const response = await fetch(`https://academics.newtonschool.co/api/v1/linkedin/like/${id}`, config)
         const result = await response.json();
-        if(localStorage.getItem(id)){
-            localStorage.removeItem(id)
+        if(sessionStorage.getItem(id)){
+            sessionStorage.removeItem(id)
             setLikeCount(n=>n-1)
         }
         else{
-            localStorage.setItem(id, true);
+            sessionStorage.setItem(id, true);
             setLikeCount(n=>n+1)
         }
     } catch (error) {

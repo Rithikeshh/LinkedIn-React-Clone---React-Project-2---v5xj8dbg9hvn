@@ -32,11 +32,18 @@
     padding: 0 32px;
     align-items: center;
     border-bottom: 1px solid rgb(0 0 0/.1);
-    >p{
-        border-bottom: 2px solid #067853;
-        padding: 12px 0;
-        color: #067853;
-        font-weight: 500;
+    >div{
+        display: flex;
+        gap: 1rem;
+        >p{
+            font-weight: 500;
+            padding: 12px 0;
+            cursor: pointer;
+        }
+        >p.active{
+            border-bottom: 2px solid #067853;
+            color: #067853;
+        }
     }
     >button{
         color: #186FC6;
@@ -52,6 +59,15 @@
 }
 .create-and-your-groups.dark{
     border-bottom: 1px solid rgb(255 255 255/.1);
+    >div{
+        >p{
+           color: rgb(255 255 255/0.9);
+        }
+        >p.active{
+            border-bottom: 2px solid #067853;
+            color: #067853;
+        }
+    }
 }
 .groupPage-my-groups{
     padding: 1rem;
@@ -396,8 +412,17 @@
         cursor: pointer;
     }
 }
-
-
+.discover-groups-container{
+    width: 100%;
+    >div{
+        >button{
+            display: none;
+        }
+        >div{
+            margin-bottom: 16px;
+        }
+    }
+}
 
 
 
@@ -419,4 +444,9 @@
         grid-template-columns: minmax(0, auto) minmax(0, 300px);
     }
     
+}
+@media screen and (max-width: 500px) {
+    .create-and-your-groups{
+        padding: 0 20px;
+    }
 }

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import getComments from './getComments';
 export default async function postComment(id, newComment, setComments, setNewComment){
-    const token = localStorage.getItem("userToken");
+    const token = sessionStorage.getItem("userToken");
     const config = {
         headers: {
           "projectID": 'f104bi07c490',

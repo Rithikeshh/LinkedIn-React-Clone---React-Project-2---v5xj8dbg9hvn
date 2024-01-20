@@ -1,5 +1,5 @@
 export default async function deleteComment(id){
-    const token = localStorage.getItem("userToken");
+    const token = sessionStorage.getItem("userToken");
     const config = {
         method: 'DELETE',
         headers: {

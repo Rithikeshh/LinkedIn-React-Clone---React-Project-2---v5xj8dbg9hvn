@@ -3,7 +3,7 @@ export default async function updatePost(id, postTitle, postContent, imagePrevie
 
    
     try {
-        const token = localStorage.getItem("userToken");
+        const token = sessionStorage.getItem("userToken");
 
         const formData = new FormData();
         formData.append("title", postTitle);

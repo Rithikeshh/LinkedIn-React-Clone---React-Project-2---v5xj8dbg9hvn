@@ -1,5 +1,5 @@
 export default async function getComments(id, setComments){
-    const token = localStorage.getItem("userToken");
+    const token = sessionStorage.getItem("userToken");
     const config = {
         method: 'GET',
         headers: {

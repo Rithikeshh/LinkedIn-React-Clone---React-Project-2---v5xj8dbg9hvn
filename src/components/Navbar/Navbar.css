@@ -124,7 +124,7 @@
     align-items: center;
     background: transparent;
     color: rgb(0 0 0/.6);
-    cursor: pointer;
+    cursor: not-allowed;
     font-size: 1.2rem;
     font-weight: 400;
     text-align: center;
@@ -146,6 +146,9 @@
         }
         color: rgb(0 0 0/.9);
     }
+}
+.pointer{
+    cursor: pointer;
 }
 .navbar-links.dark{
     color: hsla(0,0%,100%,0.7);
