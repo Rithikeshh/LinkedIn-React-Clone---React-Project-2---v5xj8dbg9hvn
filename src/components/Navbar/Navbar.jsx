@@ -123,7 +123,7 @@ function Navbar() {
             </li>
             <li className='navbar-item' title='take a guide' >
               <NavLink className={({ isActive }) => {
-                let name = isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                let name = isActive ? "navbar-links-active navbar-links hide-560" : "navbar-links hide-560"
                 name = darkMode ? `${name} dark` : name
                 return name
               }} to='/jobs'>
@@ -137,7 +137,7 @@ function Navbar() {
             </li>
             <li className='navbar-item' title='take a guide' >
               <NavLink className={({ isActive }) => {
-                let name = isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                let name = isActive ? "navbar-links-active navbar-links hide-560" : "navbar-links hide-560"
                 name = darkMode ? `${name} dark` : name
                 return name
               }} to='/messaging'>
@@ -151,7 +151,7 @@ function Navbar() {
             </li>
             <li className='navbar-item' title='take a guide' >
               <NavLink className={({ isActive }) => {
-                let name = isActive ? "navbar-links-active navbar-links" : "navbar-links"
+                let name = isActive ? "navbar-links-active navbar-links hide-560" : "navbar-links hide-560"
                 name = darkMode ? `${name} dark` : name
                 return name
               }} to='/notifications'>
@@ -166,7 +166,7 @@ function Navbar() {
             <li style={{ borderRight: "1px solid #D9D9D9", position: "relative" }} className='navbar-item'>
               <NavbarProfile />
             </li>
-            <li className='navbar-item' title='take a guide' >
+            <li className='navbar-item hide-560' title='take a guide' >
               <div onClick={() => {
                 navigate("/business")
               }} style={{ padding: "0 12px" }} className={`navbar-links ${darkMode ? 'dark' : ''}`}>
