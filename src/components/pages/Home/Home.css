@@ -196,6 +196,7 @@
         border: none;
         box-shadow: 0px 0px 0px 1px;
         cursor: not-allowed;
+        display: none;
     }
 }
 .navigate-to-signup{
