@@ -13,7 +13,7 @@ export default async function createGroup(postTitle, postContent, imageSrc, setS
         if(imageSrc){
             const imgResponse = await fetch(imageSrc)
             const blob = await imgResponse.blob()
-            formData.append("images", blob, 'image.jpg');
+            formData.append("image", blob, 'image.jpg');
         }
         
         const response = await axios.post("https://academics.newtonschool.co/api/v1/linkedin/channel",

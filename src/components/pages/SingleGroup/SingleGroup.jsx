@@ -230,7 +230,7 @@ function SingleGroup({ loading, setLoading }) {
                       <div className='suggested-groups-container'>
                         {
                           suggestedGroups.map((item, index) => (
-                            <SuggestedGroupCard key={index} item={item} groups={groups} />
+                            <SuggestedGroupCard key={index} item={item} groups={groups} setGroups={setGroups}/>
                           ))
                         }
                       </div>

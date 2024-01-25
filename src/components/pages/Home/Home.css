@@ -195,7 +195,10 @@
         color: rgb(0 0 0 / 0.6);
         border: none;
         box-shadow: 0px 0px 0px 1px;
-        cursor: not-allowed;
+        cursor: pointer;
+        /* display: none; */
+    }
+    >.none{
         display: none;
     }
 }

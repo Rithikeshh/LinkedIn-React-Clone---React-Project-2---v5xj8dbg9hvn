@@ -57,6 +57,50 @@ function Home() {
             }, 5000)
         }
     }
+    const guestLogin = async () => {
+
+        const config = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'projectID': 'f104bi07c490'
+            },
+            body: JSON.stringify({
+                email: "guest@mail.com",
+                password: "123456",
+                "appType": "linkedin"
+            })
+        }
+        try {
+            const response = await fetch("https://academics.newtonschool.co/api/v1/user/login", config)
+            const result = await response.json()
+
+            const token = result.token;
+            if (token) {
+                sessionStorage.setItem('userToken', token);
+                sessionStorage.setItem('userDetails', JSON.stringify({
+                    name: result.data.name,
+                    email: result.data.email,
+                    id: result.data._id
+                }));
+                setIsLoggedIn(true)
+                navigate("/feed")
+            }
+            if (result.status === 'fail') {
+                navigate({
+                    pathname: "/login",
+                    search: createSearchParams({
+                        email: encodeURIComponent(userDetails.email)
+                    }).toString()
+                })
+            }
+        } catch (error) {
+            setServerError(true)
+            setTimeout(() => {
+                setServerError(false)
+            }, 5000)
+        }
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
         const emailRegex = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
@@ -152,7 +196,7 @@ function Home() {
                                 </form>
                                 <div className='google-auth-btn'>
                                     <p>By clicking Continue, you agree to LinkedIn’s <span>User Agreement</span>, <span>Privacy Policy</span>, and <span>Cookie Policy</span>.</p>
-                                    <button>Continue with Google</button>
+                                    <button onClick={guestLogin}>Sign in as a GUEST</button>
                                 </div>
                                 <Link to='/signup'>
                                     <button className='navigate-to-signup'>New to LinkedIn? Join now</button>

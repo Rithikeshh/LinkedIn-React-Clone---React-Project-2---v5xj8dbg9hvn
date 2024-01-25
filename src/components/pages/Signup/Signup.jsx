@@ -155,7 +155,7 @@ function Signup() {
                             <p>or</p>
                         </div>
                         <div className='google-auth-btn'>
-                            <button>Continue with Google</button>
+                            <button className='none'>Continue with Google</button>
                         </div>
                         <div className='login-to-signin'>Already on LinkedIn? <span onClick={(e) => {
                             navigate("/login")

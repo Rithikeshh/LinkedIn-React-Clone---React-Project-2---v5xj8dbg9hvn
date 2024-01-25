@@ -85,7 +85,7 @@ function SearchPage({ loading, setLoading }) {
                             :
                             searchedData.map((post, index) => (
 
-                                <SinglePost key={index} post={post} />
+                                <SinglePost key={index} post={post} index={index} setPosts={setSearchedData}/>
                             ))
                         }
                     </div>
