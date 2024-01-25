@@ -25,7 +25,7 @@ export default async function updatePost(id, postTitle, postContent, imagePrevie
             }
 
         )
-        console.log(response);
+        
         const send = response.data.data._id;
         if(send){
             setPosts([])
