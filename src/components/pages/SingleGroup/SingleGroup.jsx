@@ -236,8 +236,8 @@ function SingleGroup({ loading, setLoading }) {
                       </div>
                     </div>
                   </div>
-                  <div className='feedPage-layout--aside-social-connect-container'>
-                    <div className='feedPage-layout--aside-social-connect'>
+                  <div className={`feedPage-layout--aside-social-connect-container ${darkMode ? 'dark' : ''}`}>
+                    <div className={`feedPage-layout--aside-social-connect ${darkMode ? 'dark' : ''}`}>
                       <p>Ad</p>
                       <div>
                         <img src={`https://ui-avatars.com/api/?name=${name.slice(0, 1)}&background=random`} alt="" />
@@ -262,7 +262,9 @@ function SingleGroup({ loading, setLoading }) {
 export default SingleGroup
 
 const SinglePost = ({ post, group }) => {
-
+  if(!post){
+    return;
+  }
   const { darkMode } = useDarkMode()
   const contentContainerRef = useRef()
   const [showSeeMore, setShowSeeMore] = useState(false)
